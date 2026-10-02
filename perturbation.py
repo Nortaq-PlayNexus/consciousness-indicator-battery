@@ -63,7 +63,7 @@ no matter how stable the absolute numbers look.
 RESULTS (seed 0, 1500 draws per region)
 ---------------------------------------
   plausible region:   F-A 1.0000  F-B 1.0000  F-C 0.9753  F-D 1.0000   ALL PASS
-  aggressive region:  F-A 0.6413  F-B 1.0000  F-C 0.7687  F-D 1.0000   absolutes fail
+  aggressive region:  F-A 0.6680  F-B 1.0000  F-C 0.7907  F-D 1.0000   absolutes fail
 
 F-B never fails across any of the 3000 draws. Ranking is robust in the plausible
 region; absolute credences are not robust in either. The battery is therefore
@@ -71,7 +71,7 @@ authorised for RANKING systems under shared assumptions and not for quoting
 absolute probabilities of consciousness.
 
 Note that F-C failing in the aggressive region is a real limitation, not noise:
-the adversarial anchor's 5th-95th percentile there is [0.027, 0.506], which
+the adversarial anchor's 5th-95th percentile there is [0.025, 0.491], which
 straddles the 0.30 ceiling. The ceiling is genuinely crossed in some draws.
 """
 
@@ -284,7 +284,7 @@ def score_under_params(
 #: six. `full_order_exact_rate` therefore read 0.000 in every run for a purely
 #: structural reason — a six-element list can never equal a five-element tuple.
 #: The gate was reporting its own defect as a falsification. The corrected tuple
-#: is below and F-A is now a real test. See FALSIFICATION/F05_broken_gate.md.
+#: is below and F-A is now a real test. See FALSIFICATION/F05_F06_robustness.md (entry F05).
 #:
 #: Ordering rationale, strongest to weakest:
 #:   human  — every indicator satisfied, the source of the indicator set

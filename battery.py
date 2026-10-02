@@ -24,7 +24,18 @@ So the aggregation here runs in two stages:
 
     stage 1: collapse indicators WITHIN a theory to one theory-level verdict
              (a theory's bundle is what it cares about, not its parts)
-    stage 2: combine theory-level verdicts with a noisy-AND over theories
+    stage 2: combine theory-level verdicts across theories with a soft-OR, then
+             apply a multiplicative penalty per theory whose necessary
+             indicators are confirmed absent
+
+Stage 2 encodes two claims that pull in opposite directions, which is why it is
+not a single combiner. The theories assert **sufficiency** — some subset is
+enough — so across theories the combiner is an OR; a plain OR is too generous,
+so it is a temperature-smoothed maximum. The theories also assert
+**necessity** — several properties are required — so each theory with a
+confirmed-absent necessary indicator is charged a penalty once, per theory
+rather than per indicator. An earlier iteration used a noisy-AND and drove a
+plausible system to exactly 0.000; see FALSIFICATION F00.
 
 and the final number is a credence, not a verdict. The battery returns bounds and
 decompositions, never a boolean.
@@ -315,11 +326,11 @@ class BatteryResult:
 # --------------------------------------------------------------------------
 
 
-def _logistic(x: float) -> float:
-    if x >= 0:
-        return 1.0 / (1.0 + math.exp(-x))
-    z = math.exp(x)
-    return z / (1.0 + z)
+# NOTE: an earlier `_logistic` helper here is dead code — it belonged to the
+# noisy-AND combiner that iteration 1 replaced (see FALSIFICATION F00a). It was
+# left behind and is removed now, along with the unused `_BUNDLE_EPS` constant
+# whose only consumer was that same abandoned path. `_soft_or` clamps internally,
+# so no epsilon is needed at the call site.
 
 
 def score_theory(ind_results: Sequence[IndicatorResult]) -> TheoryResult:
@@ -351,13 +362,9 @@ def score_theory(ind_results: Sequence[IndicatorResult]) -> TheoryResult:
     )
 
 
-#: Floor applied to a bundle likelihood before the combiner, so one failed theory
-#: discounts the answer without annihilating it.
-_BUNDLE_EPS = 0.02
-
-#: Multiplicative penalty per confirmed-absent NECESSARY indicator in a
-#: conjunctive theory. 0.55 => a single hard absence roughly halves the credence;
-#: two such absences leave it around a quarter. This is the mechanism that makes
+#: Multiplicative penalty per theory whose necessary indicators are confirmed
+#: absent. 0.55 => a single broken theory roughly halves the credence;
+#: two broken theories leave it around a quarter. This is the mechanism that makes
 #: necessity bite harder than sufficiency without becoming a veto.
 _NECESSARY_ABSENCE_FACTOR = 0.55
 
