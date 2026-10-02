@@ -41,7 +41,14 @@ EXCLUDE_DIRS = {
     "build", "dist", "zenodo", ".ruff_cache", ".mypy_cache",
 }
 EXCLUDE_SUFFIX = {".pyc", ".pyo", ".zip"}
+#: `manifest.json` is generated during staging.
 EXCLUDE_NAMES = {"manifest.json"}
+#: RELEASE.md records the archive's own SHA-256. Including it in the archive
+#: makes the checksum self-referential: writing the hash into the file changes the
+#: file, which changes the hash, which invalidates the value just written. It is
+#: release-management state rather than part of the deposit, so it stays in the
+#: repository and out of the archive.
+EXCLUDE_FROM_ARCHIVE = {"RELEASE.md"}
 
 
 def sha256_file(path: Path, chunk: int = 1 << 20) -> str:
@@ -62,7 +69,9 @@ def stage() -> list[str]:
         rel = src.relative_to(ROOT)
         if any(part in EXCLUDE_DIRS for part in rel.parts):
             continue
-        if rel.name in EXCLUDE_NAMES or src.suffix in EXCLUDE_SUFFIX:
+        if rel.name in EXCLUDE_NAMES or rel.name in EXCLUDE_FROM_ARCHIVE:
+            continue
+        if src.suffix in EXCLUDE_SUFFIX:
             continue
         if not src.is_file():
             continue

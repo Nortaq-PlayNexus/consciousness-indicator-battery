@@ -17,8 +17,8 @@ Do NOT auto-publish on the next run without checking with me first.
 |---|---|
 | GitHub | public, CI green 7/7 jobs on every push |
 | Archive | `zenodo/consciousness-indicator-battery-v1.0.0.zip` |
-| Size | 108,590 bytes (39 files) |
-| SHA-256 | `f4fe8b8422bf8995802bc717f18c071e02915751dd3c0a9c3c9357a4fcc31ea4` |
+| Size | 107,535 bytes (39 files) |
+| SHA-256 | `14abcd585432418e99a206026d37d41eb75e328701b32c6a53940797203725ee` |
 | Result hash EXP-C001 | `b953b8178354f048�` |
 | Result hash EXP-C003 | `1249a0ac9091ec2d�` |
 | Tests | 48 passing (1 skipped: lab-engine parity, standalone checkout) |
