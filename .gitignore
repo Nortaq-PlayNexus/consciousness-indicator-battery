@@ -18,6 +18,13 @@ coverage.xml
 # Notebooks
 .ipynb_checkpoints/
 
+# Generated Zenodo deposit. The build script regenerates all of it deterministically,
+# and manifest.json records a SHA-256 for every staged file, so committing the
+# staging area would only create drift against the archive it produces.
+zenodo/package/
+zenodo/*.zip
+__pycache__/
+
 # Editors / OS
 .vscode/
 .idea/

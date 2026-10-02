@@ -1,0 +1,70 @@
+{
+  "upload_type": "software",
+  "title": "A calibrated indicator battery for AI consciousness, and what survives perturbing it",
+  "subtitle": "A known-answer-gated scoring instrument over the 14 Butlin et al. indicator properties, plus a joint-perturbation robustness analysis. No AI systems scored; no claim about AI consciousness.",
+  "version": "1.0.0",
+  "publication_date": "2026-10-02",
+  "description": "This deposit contains a measurement instrument for assessing how likely an AI system is to be phenomenally conscious, together with a robustness analysis of that instrument's own discretionary parameters.\n\nWHAT IT IS. The instrument implements the 14 indicator properties derived from neuroscientific theories of consciousness by Butlin, Long, Elmoznino, Bengio et al. (2023, arXiv:2308.08708) -- a 19-author paper including Yoshua Bengio and David Chalmers, restated in Trends in Cognitive Sciences 30(6):488-501 (2026), DOI 10.1016/j.tics.2025.10.011. It aggregates by theory rather than by count, and reports a credence with an interval and a per-theory decomposition. There is no function returning a boolean, and an Assessment cannot record SATISFIED without evidence attached.\n\nWHAT IT IS NOT. No AI system was scored. No claim is made about whether any system -- human, animal, or machine -- is conscious. These are instrument results, not findings about the world.\n\nAGGREGATION. Counting the indicators is invalid: RPT-1 and RPT-2 derive from one theory about one mechanism, so counting both double-counts evidence; the theories are not independent hypotheses; and necessity is not the mirror of sufficiency. Aggregation therefore runs in two stages -- collapse indicators within each theory by geometric mean, then combine theory verdicts by a temperature-smoothed maximum (soft-OR), with a multiplicative penalty charged once per theory whose necessary indicators are confirmed absent.\n\nFOUR AGGREGATOR DESIGNS, THREE WRONG. Each failure was caught by the known-answer anchors, none by a preregistered test. (a) noisy-AND across theories scored 0.000 for a profile plausible for a modern LLM, because the source claims *sufficient* subsets rather than necessary ones; (b) plain noisy-OR scored 0.507 for a system where nothing was established, since 1-0.5^4 = 0.94 accumulates vagueness into false confidence; (c) a per-indicator absence penalty scored 0.092 for a valid workspace architecture, since 0.55^4 treats four readings of one fact as four independent failures; (d) applying the necessity penalty only to outright absences scored 0.550 for an all-PARTIAL system, letting vagueness count as evidence. Every failure landed mid-range, exactly where the instrument is intended to operate.\n\nCALIBRATION GATE (6/6 PASS). Six reference systems with a preregistered pass criterion each: human_adult >= 0.60; lookup_table, feedforward_mlp and an adversarial fluent-liar system <= 0.15; two intermediate anchors in band. The adversarial anchor is load-bearing -- a trivial system trained to emit fluent first-person sentences about its own attention and inner life, with no internal states behind them, scores 0.107. The instrument keys on architecture rather than eloquence.\n\nROBUSTNESS. All six discretionary parameter families were perturbed jointly across 3000 draws in two regions, including temperatures from 0.02 to 3.0 and evidence-quality scalers permitted to invert the intended CONTROLLED > REPLICATED ordering. Exact ordering of all six reference systems holds at 1.0000 in the plausible region and 0.6413 in the aggressive region. The fluent-liar anchor never outscores the human in either region (1.0000, 1.0000). The absolute 0.30 ceiling holds at 0.9753 plausible and 0.7687 aggressive, and the adversarial anchor's 5th-95th percentile in the aggressive region is [0.027, 0.506], genuinely crossing its ceiling. The operative conclusion is that ranking is robust while absolute probabilities are not: the instrument is authorised for comparing systems scored under identical assumptions and is not authorised for quoting an absolute probability of consciousness.\n\nUNRESOLVED AND RECORDED IN SIX PLACES. The aggregation temperature was selected by sweeping the same six anchors used to validate the instrument, and the anchor bands are also the authors'. Passing calibration therefore demonstrates internal consistency, not correctness, and nothing within the experiment can detect it. Independent elicitation of calibration anchors from researchers who did not build the instrument is the only step that would discharge this.\n\nALSO UNRESOLVED. Evaluation awareness: published work shows a model behaved well partly because it knew it was being evaluated, and ablating that representation changed the behaviour. No offline instrument removes this confound. The battery also cannot distinguish *earned* introspection from *installed* introspection.\n\nFIVE GATE DEFECTS are documented, all in the verification machinery rather than the instrument, including one ordering gate that read 0.0000 on every run because its expected-order tuple omitted an anchor -- the gate reporting its own defect as a falsification of the instrument.\n\nREPRODUCIBILITY. 38 tests, approximately 8 seconds, requiring only numpy, scipy and pytest. No GPU, no network, no model weights. All randomness flows through sha256-derived generators keyed on (label, seed), never Python's per-process-salted hash. Recorded results carry SHA-256 over a canonical JSON encoding with explicitly declared hash scopes; experiment_verify.py detects post-hoc edits and a test asserts the verifier itself is not decorative. verify_clean_room.py stages the deposit to a temporary directory and re-runs the full verification with no dependency on any external library.\n\nLICENSE AND INDEPENDENCE. MIT. The upstream indicator paper is CC BY-NC-SA 4.0 and is cited, not reproduced. This is an independent implementation of an independent aggregation approach over those indicator properties; it is not affiliated with or endorsed by the original authors.",
+  "keywords": [
+    "ai-consciousness",
+    "machine-consciousness",
+    "consciousness-science",
+    "global-workspace-theory",
+    "recurrent-processing-theory",
+    "higher-order-thories",
+    "attention-schema-theory",
+    "indicator-properties",
+    "mechanistic-interpretability",
+    "reproducibility",
+    "known-answer-calibration",
+    "sensitivity-analysis",
+    "perturbation-analysis",
+    "falsification",
+    "preregistration",
+    "open-science",
+    "ai-welfare"
+  ],
+  "creators": [
+    {
+      "name": "ScientificDiscoveryLab contributors",
+      "affiliation": "Scientific Discovery Lab",
+      "orcid": ""
+    }
+  ],
+  "doi": "",
+  "license": "MIT",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/Nortaq-PlayNexus/consciousness-indicator-battery",
+      "relation": "isSupplementTo",
+      "resource_type": "repository"
+    },
+    {
+      "identifier": "https://arxiv.org/abs/2308.08708",
+      "relation": "isDocumentedBy",
+      "resource_type": "publication-article"
+    },
+    {
+      "identifier": "https://doi.org/10.1016/j.tics.2025.10.011",
+      "relation": "isDocumentedBy",
+      "resource_type": "publication-article"
+    },
+    {
+      "identifier": "https://nonhumanminds.org/studying-ai-welfare-empirically",
+      "relation": "isDocumentedBy",
+      "resource_type": "publication-article"
+    }
+  ],
+  "access_right": "open",
+  "language": "en",
+  "subjects": [
+    "Artificial intelligence",
+    "Consciousness",
+    "Philosophy of mind",
+    "Neurosciences",
+    "Software",
+    "Open science"
+  ],
+  "version_note": "Initial deposit. Instrument validated and calibrated; no AI systems scored. Claim layer is L1 (instrument result) with one L2 statistical result for the robustness finding. No novelty claim is made: the indicator properties are prior art (Butlin et al.), and no matching study was found that implements a known-answer-gated, theory-collapsed aggregator over them. This does not establish priority.",
+  "references": "Butlin, P., Long, R., Elmoznino, E., Bengio, Y., et al. (2023). Consciousness in Artificial Intelligence: Insights from the Science of Consciousness. arXiv:2308.08708.\n\nButlin, P., Long, R., Bayne, T., Bengio, Y., et al. (2026). Identifying indicators of consciousness in AI systems. Trends in Cognitive Sciences, 30(6), 488-501. https://doi.org/10.1016/j.tics.2025.10.011\n\nLong, R., Sebo, J., Butlin, P., Plunkett, D., Campbell, R., Beasley, C., Saad, B., & Sims, T. (2026). Studying AI Welfare Empirically. NYU Center for Mind, Ethics, and Policy & Eleos AI Research. https://nonhumanminds.org/studying-ai-welfare-empirically\n\nGurnee, B., Sofroniew, N., Lindsey, J., et al. (2026). Verbalizable Representations Form a Global Workspace in Language Models. Transformer Circuits. https://transformer-circuits.pub/2026/workspace"
+}
