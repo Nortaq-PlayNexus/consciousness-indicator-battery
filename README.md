@@ -218,8 +218,11 @@ Everything is deterministic: all randomness flows through a sha256-derived
 battery.py                    scoring, two-stage aggregation, calibration gate
 perturbation.py               EXP-C003: joint robustness sweep
 _rng.py                       deterministic RNG (standalone fallback)
-TESTS/                        30 tests: validation, calibration, falsification,
-                              symmetry, determinism, robustness
+test_battery.py               19 instrument tests: validation, calibration,
+                              falsification, symmetry, determinism
+test_perturbation.py          11 robustness tests for EXP-C003
+test_standalone.py             8 tests: clean-install parity, hash integrity
+experiment_verify.py           SHA-256 verifier for RESULTS/*.json
 RESULTS/experiment.json       EXP-C001 result + canonical-JSON SHA-256
 RESULTS/experiment_C003.json  EXP-C003 result + SHA-256
 CONFIG/prereg_EXP-C001.json   constants frozen before scoring, incl. the
@@ -229,10 +232,12 @@ FALSIFICATION/                4 broken aggregator designs + 5 gate bugs +
 REPORT/                       technical + plain-English summaries
 ```
 
-The lab-internal versions of these files live under
-`ScientificDiscoveryLab/03_INVESTIGATIONS/COMPUTATIONAL_SCIENCE/ai_consciousness_indicators/`
-and import the lab's shared engine when available. The copies at repo root are
-self-contained and fall back to `_rng.py`.
+## Relationship to the source lab
+
+These files are a self-contained copy. When the same code runs inside a larger
+laboratory checkout, it prefers that checkout's shared RNG engine and falls back
+to `_rng.py` here. `test_standalone.py` asserts the two produce **bit-identical**
+streams, so a recorded hash does not depend on which implementation ran.
 
 ---
 
@@ -241,7 +246,15 @@ self-contained and fall back to `_rng.py`.
 Every run records seed, parameters, software versions, machine info, and a
 SHA-256 over a canonical JSON encoding of the result. The hash scope is declared
 explicitly so an in-memory hash can't be confused with a formatted artifact hash.
-Verification helper:
+
+Verify the whole thing reproduces with no dependency on any outside library:
+
+```bash
+python verify_clean_room.py    # copies to a temp dir, re-runs tests + hashes
+python experiment_verify.py RESULTS/experiment.json RESULTS/experiment_C003.json
+```
+
+Programmatic use:
 
 ```python
 from experiment_verify import verify_experiment_result_hash
