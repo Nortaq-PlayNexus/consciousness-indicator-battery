@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -31,9 +32,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 ZENODO = ROOT / "zenodo"
 PACKAGE = ZENODO / "package"
-ARCHIVE = ZENODO / "consciousness-indicator-battery-v1.0.0.zip"
 
-VERSION = "1.0.0"
+#: Version is read from the environment rather than hardcoded, because getting it
+#: wrong is silent and expensive: Zenodo files are immutable, so an archive named
+#: v1.0.0 uploaded as version 2.0.0 produces a record whose filename contradicts
+#: its own metadata, and the only remedy is a third version. There was no such
+#: protection when 2.0.0 was built with VERSION still hardcoded at 1.0.0.
+VERSION = os.environ.get("BATTERY_VERSION", "1.0.0")
+ARCHIVE = ZENODO / f"consciousness-indicator-battery-v{VERSION}.zip"
+
 NAME = "consciousness-indicator-battery"
 
 EXCLUDE_DIRS = {
