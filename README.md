@@ -132,14 +132,14 @@ that *invert* the intended `CONTROLLED > REPLICATED` ordering):
 
 | Gate | Plausible region | Aggressive region |
 |---|---|---|
-| exact ordering holds | **1.0000** | 0.6413 |
+| exact ordering holds | **1.0000** | 0.6680 |
 | **fluent-liar never beats human** | **1.0000** | **1.0000** |
-| absolute 0.30 ceiling holds | 0.9753 | 0.7687 |
+| absolute 0.30 ceiling holds | 0.9753 | 0.7907 |
 
 **The asymmetry is the result.**
 
 *Ranking is robust. Absolute probabilities are not.* In the aggressive region the
-adversarial anchor's 5th–95th percentile is **[0.027, 0.506]** — it genuinely
+adversarial anchor's 5th–95th percentile is **[0.025, 0.491]** — it genuinely
 crosses its ceiling. So "fluent systems stay below 0.15" is **not** safe.
 
 But across every parameter setting tried, **no sample ever let a system that
@@ -190,7 +190,7 @@ cd consciousness-indicator-battery
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
-pytest -q          # 30 tests
+pytest -q          # 48 tests, ~5s
 ```
 
 No GPU. No network. No model weights. Python 3.11+.
@@ -222,13 +222,16 @@ _rng.py                       deterministic RNG (standalone fallback)
 test_battery.py               19 instrument tests: validation, calibration,
                               falsification, symmetry, determinism
 test_perturbation.py          11 robustness tests for EXP-C003
-test_standalone.py             8 tests: clean-install parity, hash integrity
-experiment_verify.py           SHA-256 verifier for RESULTS/*.json
+test_calibration_gate.py      10 regression tests for F08-F10
+test_standalone.py            8 tests: clean-install parity, hash integrity
+experiment_verify.py          SHA-256 verifier for RESULTS/*.json
+tools/regenerate_results.py   rebuild RESULTS/*.json after a code change
 RESULTS/experiment.json       EXP-C001 result + canonical-JSON SHA-256
 RESULTS/experiment_C003.json  EXP-C003 result + SHA-256
 CONFIG/prereg_EXP-C001.json   constants frozen before scoring, incl. the
                               known circularity recorded up front
-FALSIFICATION/                4 broken aggregator designs + 6 verifier bugs +
+FALSIFICATION/                4 broken aggregator designs, 6 verifier
+                              defects (F08-F10 in a separate file),
                               2 unresolved confounds
 REPORT/                       technical + plain-English summaries
 ```

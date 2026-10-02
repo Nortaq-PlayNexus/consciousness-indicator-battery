@@ -4,7 +4,7 @@
 
 An open-source research project built a calibrated instrument for assessing AI
 consciousness, then found and fixed four wrong ways of combining its inputs and
-five bugs in its own verification. It proved the ordering of systems is robust to
+six defects in its own verification, three of them found in a final pre-release review. It proved the ordering of systems is robust to
 arbitrary parameter choices while absolute probabilities are not, scored zero AI
 systems, and publishes its unresolved problems as the main result.
 
@@ -29,7 +29,7 @@ systems, and publishes its unresolved problems as the main result.
   a plausible profile scoring 0.000, 0.507 and 0.092 respectively. All three
   failures landed in the middle of the range the instrument exists to measure.
 
-- **Five bugs in the verification, not the instrument.** Including a test that
+- **Six defects in the verification, not the instrument.** Including a test that
   reported its own coding bug as a falsification of the battery.
 
 - **The robustness result.** Across 3,000 joint perturbations of all six
@@ -51,7 +51,7 @@ systems, and publishes its unresolved problems as the main result.
   central check on the standing objection that such work measures eloquence
   rather than architecture.
 
-- **Reproducibility.** 38 tests, ~6 seconds, three dependencies (numpy, scipy,
+- **Reproducibility.** 48 tests, ~5 seconds, three dependencies (numpy, scipy,
   pytest). No GPU, no network, no model weights. Results carry SHA-256 hashes
   over a canonical JSON encoding, with a verifier that detects post-hoc edits —
   itself covered by a test.

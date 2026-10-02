@@ -167,7 +167,7 @@ def main() -> int:
         print(f"DO NOT UPLOAD -- {len(failed)} check(s) failed: {', '.join(failed)}")
         return 1
 
-    print(f"ARCHIVE VERIFIED -- safe to upload to Zenodo")
+    print("ARCHIVE VERIFIED -- safe to upload to Zenodo")
     print(f"  {ARCHIVE}")
     print("\nNext: push the GitHub repository first (Zenodo-GitHub linking needs a")
     print("public non-empty repo), then follow zenodo/UPLOAD_INSTRUCTIONS.md.")

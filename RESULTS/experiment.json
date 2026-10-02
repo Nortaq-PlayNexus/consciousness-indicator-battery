@@ -11,9 +11,7 @@
   "experiment_id": "EXP-C001",
   "hypothesis": "HYP-C001: theory-collapsed aggregator with known-answer gate separates reference systems and is not raised by fluent self-report",
   "machine": {
-    "machine": "AMD64",
-    "platform": "Windows-10-10.0.19045-SP0",
-    "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel"
+    "platform": "win32"
   },
   "parameters": {
     "alpha": 0.01,
@@ -69,7 +67,12 @@
         }
       ]
     },
-    "claim": "internally consistent scoring function; NOT a claim about any AI system consciousness",
+    "claim": "internally consistent scoring function; NOT a claim about any AI system's consciousness",
+    "fixes_in_this_record": [
+      "F08: BatteryResult.calibration_passed was `not require_calibration or True`, unconditionally True. run_battery now gates on a computed calibration_state() and raises CalibrationNotEstablished when calibration has not passed.",
+      "F09: duplicate-indicator check compared len(dict values) to len(set(keys)), which can never differ. Contradictory assessments are now rejected.",
+      "F10: perturbation family P4 (conscious_rate_shift) was computed and discarded, so one of six advertised robustness families perturbed nothing."
+    ],
     "layer": "L1 instrument result only",
     "parameters": {
       "absence_factor": 0.55,
@@ -77,17 +80,13 @@
       "soft_or_temperature": 0.1
     }
   },
-  "result_hash": "a57207e5cf7d6775d1d469fe38fb524d842b63ad10bd2c3c62af5c6205a21c2a",
+  "result_hash": "b953b8178354f0480257d9e684519782982da05207086c1e3491298d78133c16",
   "result_hash_scope": "canonical_json_utf8_result_object",
-  "seed": "20261002",
+  "seed": 20261002,
   "software": {
-    "matplotlib": "3.11.2",
     "numpy": "2.4.1",
     "python": "3.14.7",
-    "scipy": "1.18.1",
-    "skimage": "0.26.0",
-    "sklearn": "1.9.1",
-    "sympy": "1.14.0"
+    "scipy": "1.18.1"
   },
-  "timestamp_utc": "2026-10-02T05:04:44+00:00"
+  "timestamp_utc": "2026-10-02T06:07:22+00:00"
 }

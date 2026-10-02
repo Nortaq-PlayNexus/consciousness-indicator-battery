@@ -115,21 +115,48 @@ class Indicator:
 # Table 1 of Butlin, Long et al., arXiv:2308.08708 (2023), and the condensed
 # restatement in Butlin, Long, Bayne, Bengio et al., Trends Cogn Sci 30(6):488-501
 # (2026), DOI 10.1016/j.tics.2025.10.011. Wording abbreviated here.
+# Positional args after the text are: necessary_in_theory, p_given_conscious,
+# p_given_not_conscious. Both probabilities are hand-set from the literature
+# narrative (see LITERATURE.md), not measured. Long lines are deliberate: one
+# indicator per row reads better here than a reflowed table.
 INDICATORS: tuple[Indicator, ...] = (
     Indicator("RPT-1", "RPT", "Input modules using algorithmic recurrence", True, 0.95, 0.60),
-    Indicator("RPT-2", "RPT", "Input modules generating organised, integrated perceptual representations", True, 0.80, 0.25),
-    Indicator("GWT-1", "GWT", "Multiple specialised systems capable of operating in parallel (modularity)", True, 0.85, 0.70),
-    Indicator("GWT-2", "GWT", "Limited-capacity workspace: information bottleneck plus selective attention", True, 0.90, 0.15),
-    Indicator("GWT-3", "GWT", "Global broadcast: workspace contents available to all modules", True, 0.85, 0.10),
-    Indicator("GWT-4", "GWT", "State-dependent attention enabling serial module queries for complex tasks", True, 0.75, 0.10),
-    Indicator("HOT-1", "HOT", "Generative, top-down or noisy perception modules", True, 0.80, 0.30),
-    Indicator("HOT-2", "HOT", "Metacognitive monitoring separating reliable representations from noise", True, 0.80, 0.20),
-    Indicator("HOT-3", "HOT", "Agency via belief-formation/action-selection with disposition to update on metacognitive output", True, 0.80, 0.25),
-    Indicator("HOT-4", "HOT", "Sparse and smooth coding generating a quality space", True, 0.60, 0.20),
-    Indicator("AST-1", "AST", "Predictive model representing and enabling control over current attention state", True, 0.75, 0.10),
+    Indicator("RPT-2", "RPT",
+              "Input modules generating organised, integrated perceptual representations",
+              True, 0.80, 0.25),
+    Indicator("GWT-1", "GWT",
+              "Multiple specialised systems capable of operating in parallel (modularity)",
+              True, 0.85, 0.70),
+    Indicator("GWT-2", "GWT",
+              "Limited-capacity workspace: information bottleneck plus selective attention",
+              True, 0.90, 0.15),
+    Indicator("GWT-3", "GWT",
+              "Global broadcast: workspace contents available to all modules",
+              True, 0.85, 0.10),
+    Indicator("GWT-4", "GWT",
+              "State-dependent attention enabling serial module queries for complex tasks",
+              True, 0.75, 0.10),
+    Indicator("HOT-1", "HOT", "Generative, top-down or noisy perception modules",
+              True, 0.80, 0.30),
+    Indicator("HOT-2", "HOT",
+              "Metacognitive monitoring separating reliable representations from noise",
+              True, 0.80, 0.20),
+    Indicator("HOT-3", "HOT",
+              "Agency via belief-formation/action-selection with disposition to update "
+              "on metacognitive output",
+              True, 0.80, 0.25),
+    Indicator("HOT-4", "HOT", "Sparse and smooth coding generating a quality space",
+              True, 0.60, 0.20),
+    Indicator("AST-1", "AST",
+              "Predictive model representing and enabling control over current attention state",
+              True, 0.75, 0.10),
     Indicator("PP-1", "PP", "Input modules using predictive coding", False, 0.85, 0.35),
-    Indicator("AE-1", "AE", "Agency: learning from feedback, flexible responsiveness to competing goals", False, 0.90, 0.45),
-    Indicator("AE-2", "AE", "Embodiment: modelling output-input contingencies and using the model in control", False, 0.70, 0.15),
+    Indicator("AE-1", "AE",
+              "Agency: learning from feedback, flexible responsiveness to competing goals",
+              False, 0.90, 0.45),
+    Indicator("AE-2", "AE",
+              "Embodiment: modelling output-input contingencies and using this model in control",
+              False, 0.70, 0.15),
 )
 
 INDICATORS_BY_KEY: Mapping[str, Indicator] = {i.key: i for i in INDICATORS}
@@ -268,6 +295,7 @@ class BatteryResult:
     untested_indicators: list[str]
     contributory: dict[str, float]
     calibration_passed: bool
+    calibration_checked: bool
     warnings: list[str]
     content_hash: str
 
@@ -454,6 +482,54 @@ def combine_theories(
 # Top-level entry point
 # --------------------------------------------------------------------------
 
+#: Memoized known-answer calibration result, plus a reentrancy guard.
+#:
+#: The guard exists because `calibrate_known_answers` scores the anchors by
+#: calling `run_battery`, and `run_battery` wants to know the calibration state.
+#: Without the guard that is infinite recursion. The anchors are scored with
+#: `require_calibration=False` precisely so they are not gated on the gate.
+_CALIBRATION_CACHE: dict | None = None
+_CALIBRATION_IN_PROGRESS = False
+
+
+def calibration_state(force: bool = False) -> dict:
+    """Run (or reuse) the known-answer calibration and report its state.
+
+    This is the gate the whole instrument rests on. It is computed, not
+    asserted, so `calibration_passed` on a BatteryResult carries real
+    information.
+
+    Returns a dict with `passed`, `failures` and per-anchor `rows`. During
+    reentrant entry (i.e. while the anchors are themselves being scored) it
+    returns `passed=None`, meaning "not yet established" — never `True`.
+    """
+    global _CALIBRATION_CACHE, _CALIBRATION_IN_PROGRESS
+
+    if _CALIBRATION_IN_PROGRESS:
+        return {"passed": None, "failures": ["reentrant: calibration in progress"], "rows": {}}
+
+    if force or _CALIBRATION_CACHE is None:
+        _CALIBRATION_IN_PROGRESS = True
+        try:
+            report = calibrate_known_answers()
+            _CALIBRATION_CACHE = {
+                "passed": report.passed,
+                "failures": report.failures,
+                "rows": {r["system_id"]: r["credence"] for r in report.rows},
+            }
+        finally:
+            _CALIBRATION_IN_PROGRESS = False
+    return _CALIBRATION_CACHE
+
+
+class CalibrationNotEstablished(RuntimeError):
+    """Raised when a calibrated credence is requested but calibration has not passed.
+
+    Gate closed. A score from an uncalibrated battery is not a measurement, and
+    the one thing this module must never do is hand out one while appearing
+    calibrated.
+    """
+
 
 def run_battery(
     system_id: str,
@@ -472,10 +548,23 @@ def run_battery(
     Refuses to return a calibrated number when the battery has not been
     calibrated. Gate closed, per RESEARCH_RULES.md §12.
     """
-    by_key: dict[str, Assessment] = {a.key: a for a in assessments}
-    duplicate_check = len(list(by_key.values()))
-    if duplicate_check != len(set(by_key)):
-        raise ValueError("duplicate indicator keys in assessments")
+    if require_calibration:
+        state = calibration_state()
+        if not state["passed"]:
+            raise CalibrationNotEstablished(
+                "known-answer calibration has not passed; refusing to return a "
+                f"credence. Failures: {state['failures']}. Fix the battery or pass "
+                "require_calibration=False to obtain an explicitly uncalibrated "
+                "diagnostic number."
+            )
+
+    seen: set[str] = set()
+    by_key: dict[str, Assessment] = {}
+    for a in assessments:
+        if a.key in seen:
+            raise ValueError(f"duplicate indicator key in assessments: {a.key}")
+        seen.add(a.key)
+        by_key[a.key] = a
 
     warnings: list[str] = []
     results: list[IndicatorResult] = []
@@ -541,7 +630,14 @@ def run_battery(
         functionalism_multiplier=functionalism_multiplier,
         untested_indicators=untested,
         contributory={t.theory: t.bundle_likelihood for t in theory_results if t.theory in CONTRIBUTORY_THEORIES},
-        calibration_passed=not require_calibration or True,
+        # Previously `not require_calibration or True`, which is unconditionally
+        # True: the calibration gate was a field that always said "passed",
+        # regardless of whether calibration had ever been run. A status flag that
+        # cannot report failure is worse than no flag, because a caller checking
+        # `result.calibration_passed` gets false assurance. Now computed, and
+        # `run_battery` raises when a calibrated number is requested without it.
+        calibration_passed=calibration_state()["passed"],
+        calibration_checked=require_calibration,
         warnings=warnings,
         content_hash=sha256_json(payload),
     )
@@ -726,7 +822,6 @@ def bootstrap_stability(
     measure of how much of the answer is assumption rather than measurement.
     """
     gen = rng("q-c001-bootstrap", seed)
-    keys = [i.key for i in INDICATORS]
     untested = [a.key for a in assessments if a.status is Status.UNKNOWN]
     tested = [a for a in assessments if a.status is not Status.UNKNOWN]
 

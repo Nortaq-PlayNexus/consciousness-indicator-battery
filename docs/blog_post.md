@@ -210,16 +210,16 @@ The result is the single most useful thing here:
 
 | | plausible | aggressive |
 |---|---|---|
-| exact ordering of all six systems holds | **1.0000** | 0.6413 |
+| exact ordering of all six systems holds | **1.0000** | 0.6680 |
 | **fluent performer never beats human** | **1.0000** | **1.0000** |
-| absolute 0.30 ceiling holds | 0.9753 | 0.7687 |
+| absolute 0.30 ceiling holds | 0.9753 | 0.7907 |
 
 Read that carefully, because the asymmetry is the point.
 
 **Ordering is robust. Absolute probabilities are not.**
 
 In the hostile region the fluent performer's 5th-to-95th percentile is
-**[0.027, 0.506]**. It genuinely crosses its ceiling. So the sentence "fluent
+**[0.025, 0.491]**. It genuinely crosses its ceiling. So the sentence "fluent
 self-report stays below 0.15" is *not* safe to say. If you saw it quoted anywhere,
 distrust it.
 
@@ -235,37 +235,74 @@ counterexample and it's dead.
 
 ## Meanwhile, in the tests
 
-Six bugs in our own *verification*, which is a humbling ratio.
+Six defects in our own *verification*, which is a humbling ratio. Three were found
+in a final read-through, days after the science was done.
 
-The worst: an ordering gate listing five of the six systems, comparing the sorted
+An ordering gate listed five of the six systems, then compared the sorted
 six-element result against a five-element tuple. It could never match. So it read
 0.0000 on every run — reporting its own bug as a falsification of the battery. A
 test failing loudly and confidently about the wrong thing.
 
-The other: a summary keyed on "did all gates pass," which discarded the robust
-result because the fragile one failed — reporting "the battery is an artefact of
-its constants" and throwing away the finding. A verdict edited to look worse,
-which is its own kind of dishonesty.
+A summary keyed on "did all gates pass," which discarded the robust result because
+the fragile one failed — reporting "the battery is an artefact of its constants" and
+throwing away the finding. A verdict edited to look worse, which is its own kind of
+dishonesty.
 
-The sixth turned up while preparing the release: the clean-room verifier copied the
-repository into a temp directory, walked into the generated deposit staging area,
-found a second copy of the same test files, and reported a collection failure —
-loud, and completely uninformative about the thing it was supposed to be checking.
+The clean-room verifier, written to prove the repo had no outside dependencies,
+copied the repository into a temp directory, walked into the generated deposit
+staging area, found a second copy of the same test files, and reported a collection
+failure — loud, and completely uninformative about the thing it was checking.
 
-Five of the six were the same class as bugs already fixed in the battery: reasons
-a gate fails that aren't about the thing under test. In two cases the misdiagnosis
-was severe. One gate reported "the ordering collapsed" when its expected-order
-tuple simply omitted an anchor. Another reported "the battery is an artefact of
-its constants" when the robust result had been discarded by a fragile one. Read
-cold, both are confident scientific-sounding claims that are entirely
-manufactured by the checker.
+Then the last three, and these are the ones that should worry you if you ever run
+someone else's consciousness score:
 
-We have no systematic way to check that our gates themselves run. That is now
-asserted in CI, and the failure table is in `FALSIFICATION/`.
+`calibration_passed` was assigned `not require_calibration or True`. That is
+unconditionally true. **The field reporting whether the battery had been calibrated
+could never report that it hadn't.** A caller checking it before trusting a number
+would have been told yes, always.
 
-The ratio is the actual lesson. The battery had four broken aggregators. The
-verification machinery had six broken gates. Neither was obvious. All of them
-would have shipped.
+The duplicate-indicator check compared the length of a dict's values to the length
+of its keys. A dict can't contain duplicate keys, so the two were equal by
+construction and the check was unreachable. Pass two contradictory assessments for
+the same indicator — one satisfied, one absent — and it silently kept whichever
+came last. No error. No warning. Just a confident number with an arbitrary choice
+baked in.
+
+And the worst for a *scientific* claim: one of the six parameter families in the
+robustness sweep was sampled on every one of 3,000 draws, stored, documented in the
+module docstring, and then never read at the point of calculation. We had published
+the sentence "all six discretionary parameter families were perturbed jointly." Five
+were. One advertised degree of freedom was held fixed the whole time while being
+reported as varying.
+
+That last one didn't move the headline numbers much once fixed. But the claim had
+to be corrected and the recorded results regenerated, because for a while the repo
+was making a robustness statement one parameter short of what it actually did.
+
+Five of the six were the same class as bugs already fixed in the battery: reasons a
+gate fails that aren't about the thing under test. But look at *what* each one
+would have been misread as:
+
+| the defect | what a reader would conclude |
+|---|---|
+| expected-order tuple omitted an anchor | "the ordering collapsed" |
+| all-gates key discarded the robust result | "the battery is an artefact" |
+| verifier recursed into its own staging | "the instrument is broken" |
+| `calibration_passed` always true | "the gate passed" |
+| duplicate check unreachable | "contradictory inputs agree" |
+| one perturbation family inert | "six families were varied" |
+
+Four of the six manufacture *confidence* rather than losing it. A checker
+returning a result that was never computed. Read cold, that table is a list of
+confident scientific-sounding claims manufactured entirely by the machinery doing
+the looking.
+
+We still have no systematic way to check that our gates themselves run — we found
+these by reading, not by tooling. Every one of them is now covered by a
+regression test, and the full failure table is in `FALSIFICATION/`.
+
+The ratio is the lesson. The battery had four broken aggregators. The verification
+machinery had six broken gates. None was obvious. All of them would have shipped.
 
 ---
 
@@ -330,7 +367,7 @@ if anyone's ever going to quote one.
 
 We scored no AI systems and claim nothing about whether any is conscious.
 
-Everything is reproducible: 38 tests, about eight seconds, three dependencies, no
+Everything is reproducible: 48 tests, about five seconds, three dependencies, no
 GPU, no network, and a SHA-256 over the results so you can check nobody edited
 them afterward.
 

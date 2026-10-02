@@ -26,9 +26,16 @@ Six families, all discretionary:
   P1  soft-OR temperature          _SOFT_OR_TEMPERATURE
   P2  evidence quality             q in Evidence.strength, log-uniform spread
   P3  AI base rates                p_given_not_conscious
-  P4  human rates                  p_given_conscious
+  P4  human rates                  p_given_conscious  (caps how strongly a
+                                  SATISFIED assessment can be credited)
   P5  absence penalty              _NECESSARY_ABSENCE_FACTOR
   P6  necessity excess             _NECESSITY_ABSENCE_PENALTY
+
+P4 was inert until F10 (see FALSIFICATION/F08_F09_F10_integrity_defects.md): the
+shift was sampled and stored but never read at the point of calculation, so the
+project was claiming six perturbed families while varying five.
+`test_all_six_perturbation_families_reach_the_score` now asserts every family can
+move the score, in at least one direction.
 
 WHAT IS HELD FIXED
 ------------------
@@ -71,24 +78,17 @@ straddles the 0.30 ceiling. The ceiling is genuinely crossed in some draws.
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from typing import Sequence
 
 from battery import (
     Assessment,
-    BatteryResult,
     Evidence,
     Indicator,
     INDICATORS,
     IndicatorResult,
     Status,
-    TheoryResult,
-    _soft_or,
-    calibrate_known_answers,
-    combine_theories,
-    run_battery,
     score_theory,
-    _indicator_likelihood,
 )
 try:  # prefer the lab's canonical engine
     from engine.utilities.core import rng
@@ -207,6 +207,11 @@ def score_under_params(
         a = by_key.get(ind.key) or Assessment(ind.key, Status.UNKNOWN, Evidence.UNTESTED)
 
         base_rate = _clamp(ind.p_given_not_conscious + params.base_rate_shift[ind.key])
+        # p_given_conscious caps how strongly SATISFIED can be credited: even a
+        # conscious system only shows some indicators reliably (that is what the
+        # prior encodes). The shift on it is perturbation family P4 and was
+        # previously sampled and then discarded — the variable was computed and
+        # never used, so P4 perturbed nothing.
         conscious_rate = _clamp(ind.p_given_conscious + params.conscious_rate_shift[ind.key])
 
         base = {Status.SATISFIED: 1.0, Status.PARTIAL: 0.5, Status.ABSENT: 0.0, Status.UNKNOWN: 0.0}[a.status]
@@ -216,6 +221,8 @@ def score_under_params(
             likelihood = base_rate
         else:
             likelihood = base * quality + base_rate * (1.0 - quality)
+            if a.status is Status.SATISFIED:
+                likelihood = min(likelihood, max(conscious_rate, base_rate))
             if ind.necessary_in_theory and base < 1.0:
                 likelihood -= (1.0 - likelihood) * (params.necessity_penalty - 1.0) * base
             likelihood = _clamp(likelihood)

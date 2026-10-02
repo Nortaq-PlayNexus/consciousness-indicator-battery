@@ -106,7 +106,7 @@ pip install -r requirements.txt
 pytest -q
 ```
 
-30 tests, ~2 seconds. No GPU, no network.
+48 tests, ~5 seconds. No GPU, no network.
 
 ## A note on tone
 

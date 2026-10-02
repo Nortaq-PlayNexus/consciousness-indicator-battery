@@ -12,12 +12,7 @@ from __future__ import annotations
 import pytest
 
 import battery as B
-from perturbation import (
-    EXPECTED_ORDER,
-    run_perturbation,
-    sample_params,
-    score_under_params,
-)
+from perturbation import EXPECTED_ORDER, run_perturbation, sample_params
 
 
 # ---------------------------------------------------------------- gate hygiene
