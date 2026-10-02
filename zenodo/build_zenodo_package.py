@@ -72,10 +72,15 @@ def stage() -> list[str]:
         shutil.copy2(src, target)
         staged.append(str(rel).replace("\\", "/"))
 
+    # No build timestamp. It made the archive non-reproducible byte-for-byte, so
+    # the SHA-256 recorded in RELEASE.md went stale every time the script ran —
+    # which defeats the point of recording a checksum for an archive whose files
+    # are immutable once uploaded. Every input here is either a committed file or
+    # a deterministic function of one, so an identical tree must produce an
+    # identical archive.
     manifest = {
         "name": NAME,
         "version": VERSION,
-        "built_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "file_count": len(staged),
         "note": (
             "SHA-256 per file, exact bytes. The instrument additionally records a "
@@ -95,12 +100,37 @@ def stage() -> list[str]:
 
 
 def build_zip() -> int:
+    """Build the archive byte-reproducibly.
+
+    Two things otherwise vary between runs on identical input:
+
+    - zip entries embed the source file's mtime, and `shutil.copy2` preserves it,
+      so a plain `write()` would carry whatever timestamp each file happened to
+      have;
+    - entries are written in filesystem order, which is not guaranteed stable.
+
+    Both are pinned here: a fixed epoch for every entry, and an explicit sort.
+    The result is that the SHA-256 recorded in RELEASE.md stays valid across
+    rebuilds, which matters because Zenodo files cannot be replaced once
+    published.
+    """
+    # 1980-01-01 is the earliest timestamp the zip format can represent.
+    fixed_date = (1980, 1, 1, 0, 0, 0)
     if ARCHIVE.exists():
         ARCHIVE.unlink()
     with zipfile.ZipFile(ARCHIVE, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
-        for path in sorted(PACKAGE.rglob("*")):
-            if path.is_file():
-                zf.write(path, arcname=f"{NAME}/{path.relative_to(PACKAGE)}")
+        for path in sorted(PACKAGE.rglob("*"), key=lambda p: str(p.relative_to(PACKAGE))):
+            if not path.is_file():
+                continue
+            info = zipfile.ZipInfo(
+                filename=f"{NAME}/{path.relative_to(PACKAGE).as_posix()}",
+                date_time=fixed_date,
+            )
+            # 0o644 regular file; matches what a clean checkout produces on any
+            # platform, so the archive does not encode the build machine's umask.
+            info.external_attr = (0o100644 & 0xFFFF) << 16
+            info.compress_type = zipfile.ZIP_DEFLATED
+            zf.writestr(info, path.read_bytes())
     return ARCHIVE.stat().st_size
 
 

@@ -258,6 +258,14 @@ python verify_clean_room.py    # copies to a temp dir, re-runs tests + hashes
 python experiment_verify.py RESULTS/experiment.json RESULTS/experiment_C003.json
 ```
 
+The Zenodo deposit archive is byte-reproducible — rebuilding on an unchanged tree
+yields an identical SHA-256, so the checksum recorded in `RELEASE.md` stays
+valid:
+
+```bash
+python zenodo/build_zenodo_package.py   # stages, verifies, builds, prints ARCHIVE VERIFIED
+```
+
 Programmatic use:
 
 ```python
