@@ -1,9 +1,17 @@
-# F08, F09, F10 — integrity defects found during pre-release review
+# F08–F11 — integrity defects found in pre-release review and first CI run
 
-Found during a full read-through immediately before publication, not during the
-science. All three are in the instrument's *guarantees* rather than its scoring
-logic, which is what makes them more serious than typical lint: each one is a
-protection that appeared to be working and was not.
+Found during a full read-through immediately before publication (F08–F10), plus
+three more caught by CI on the first push (F11).
+
+F08–F10 are in the instrument's *guarantees* rather than its scoring logic, which
+is what makes them more serious than typical lint: each one is a protection that
+appeared to be working and was not. F11 is a set of environmental assumptions —
+lint config in two places, dependency bounds that excluded two advertised Python
+versions, and a CI assertion against a key that does not exist.
+
+**None of the six changed the scientific conclusions.** Several would have changed
+what a reader believed those conclusions were, which is the failure mode that
+matters most for work whose entire claim is about not overstating.
 
 ---
 
@@ -185,3 +193,76 @@ plausible, wrong output.
 The recurring lesson stands: **a verification step must itself be verified.** The
 question "does this checker run correctly?" is separate from "what is it checking?"
 and in these cases the second was consistently confused with the first.
+---
+
+## F11 � three defects found by CI on the first push, not by reading
+
+**Worth its own entry because CI caught these on the first run after being pushed.
+That is the system working � and also the first defect in this project found by a
+machine rather than by reading.**
+
+**F11a � the headline-claims job asserted on a key that does not exist.**
+
+Symptom: `KeyError: 'gates'` on a clean checkout.
+
+Cause:
+
+```python
+r = compare_regions(seed=0)
+assert r["verdict_detail"]["load_claim_FB_holds_both"], r["gates"]
+```
+
+`compare_regions()` returns `verdict`, `verdict_detail`, `plausible_region`,
+`aggressive_region`. There is no top-level `gates` key; the figures live inside
+each region. Python evaluated `r["gates"]` to build the failure message and
+raised before reaching the real assertion.
+
+Why it matters: had the inner assertion also been false, this would have reported
+`KeyError: 'gates'` instead of the actual gate values. Anyone reading CI would
+conclude the battery's robustness claim had broken. It had not.
+
+**F11b � lint config lived in two places.**
+
+The workflow passed `--max-line-length=120` on the command line while local runs
+used `setup.cfg`'s 125. One line at 124 characters passed locally and failed in
+CI. Config in two places will disagree; lint config now lives only in
+`setup.cfg`, and CI runs bare `flake8 .`.
+
+**F11c � the advertised support matrix could not install.**
+
+`requirements.txt` pinned `numpy>=2.4.0` and `scipy>=1.18.0`, which require
+Python >=3.11 and >=3.12. The CI matrix started at 3.10, so two of four legs
+could not install the project at all. The bounds were set from the development
+machine, not from the oldest interpreter declared as supported. Relaxed to
+`numpy>=2.2` / `scipy>=1.13`. Nothing in the code depends on 2.4-only behaviour.
+
+All three are the same species as F05-F10: a check that fails for a reason
+unrelated to what it checks, producing output that reads as a finding about the
+instrument. Two of the three produced *confident wrong conclusions* rather than
+plain errors.
+
+**The asymmetry is the lesson.** F05-F10 were found by reading. F11 was found by
+pushing and letting a clean environment disagree. Reading finds silent defects;
+execution finds environmental assumptions. Neither method is sufficient alone,
+and the failure modes are different enough that a project needs both.
+
+Recorded result after the fix: all four pytest legs, hash integrity, headline
+claims and lint pass on a clean checkout.
+
+---
+
+## Cross-reference: the full table
+
+| | Defect | Would be misread as | Found by |
+|---|---|---|---|
+| F05 | `EXPECTED_ORDER` missing an anchor | the ordering collapsed | reading |
+| F06 | `all_gates_pass` discarding a robust result | the battery is an artefact | reading |
+| F07 | clean-room verifier recursing into staging | the instrument is broken | execution |
+| F08 | `calibration_passed` always True | the gate passed | reading |
+| F09 | duplicate-key check unreachable | contradictory inputs agree | reading |
+| F10 | P4 perturbation family inert | six families were perturbed | reading |
+| F11 | CI asserted a nonexistent key | the robustness claim broke | execution |
+
+None changed the scientific conclusions. Several would have changed what a reader
+believed those conclusions were, which is the failure mode that matters most for
+work whose entire claim is about not overstating.

@@ -62,9 +62,18 @@ jobs:
           assert cal.passed, cal.failures
           print("calibration PASS")
 
+          # NOTE: gates live in the per-region sub-dicts, not at the top level of
+          # compare_regions(). An earlier version of this job asserted on r["gates"]
+          # and died with KeyError on a clean checkout — which would have read as
+          # the battery failing when in fact the checker was wrong. Same class as
+          # F05/F06: a checker failing for a reason unrelated to what it checks.
           r = compare_regions(seed=0)
-          assert r["verdict_detail"]["load_claim_FB_holds_both"], r["gates"]
-          print("F-B holds:", r["gates"]["F-B adversarial < human"])
+          detail = r["verdict_detail"]
+          assert detail["load_claim_FB_holds_both"], detail
+          for region in ("plausible_region", "aggressive_region"):
+              fb = r[region]["gates"]["F-B adversarial < human"]
+              assert fb >= 0.95, (region, fb)
+              print(f"{region}: F-B hold rate {fb:.4f}")
           print(r["verdict"])
           PY
 
@@ -79,4 +88,6 @@ jobs:
       - name: Install tools
         run: pip install flake8
       - name: Run flake8
-        run: flake8 . --max-line-length=120 --extend-exclude=.venv,build,dist,__pycache__
+        # Config (max-line-length, extend-exclude, extend-ignore) lives in
+        # setup.cfg so local runs and CI cannot disagree.
+        run: flake8 .

@@ -31,7 +31,7 @@ Six families, all discretionary:
   P5  absence penalty              _NECESSARY_ABSENCE_FACTOR
   P6  necessity excess             _NECESSITY_ABSENCE_PENALTY
 
-P4 was inert until F10 (see FALSIFICATION/F08_F09_F10_integrity_defects.md): the
+P4 was inert until F10 (see FALSIFICATION/F08_F11_integrity_defects.md): the
 shift was sampled and stored but never read at the point of calculation, so the
 project was claiming six perturbed families while varying five.
 `test_all_six_perturbation_families_reach_the_score` now asserts every family can
