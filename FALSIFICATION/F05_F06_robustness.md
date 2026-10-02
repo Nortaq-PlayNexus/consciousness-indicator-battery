@@ -1,7 +1,8 @@
-# F05, F06 — robustness of the EXP-C003 gates
+# F05, F06, F07 — robustness of the EXP-C003 gates
 
-These record the two failures found while running the perturbation experiment.
-Both concern the experiment's own gate machinery, not consciousness.
+These record the failures found while running the perturbation experiment and the
+release tooling. All three concern the experiment's own gate and verification
+machinery, not consciousness. F07 was found during publication preparation.
 
 ## F05 — `EXPECTED_ORDER` omitted an anchor (FIXED)
 
@@ -76,7 +77,47 @@ The underlying numbers are identical in both versions. Recorded here because a
 verdict string is part of a result and must not be edited to look better — the
 numbers that disagreed are preserved above.
 
-## What neither F05 nor F06 changes
+## F07 — clean-room verifier walked into its own staging area (FIXED)
+
+**Found during publication preparation**, not during the science.
+
+**Symptom.** `verify_clean_room.py` reported `CLEAN ROOM FAILED (1 step(s))` with
+three collection errors, immediately after the Zenodo deposit tooling was added.
+
+**Actual cause.** The verifier copied the whole tree into a temp directory. That
+included `zenodo/package/`, which is a *generated copy of the same test modules*.
+Duplicate module basenames in two directories made pytest collect them twice and
+fail on import.
+
+**Why it matters beyond the wasted cycle.** The failure was loud and completely
+uninformative: it said nothing about the instrument, and a reader skimming CI
+output could easily misread it as the battery breaking. That is precisely the
+failure class F05 and F06 describe — a checker failing for a reason unrelated to
+what it checks.
+
+**Fix.** `zenodo/` added to the verifier's exclusion list, with a comment
+recording why. Both this and the verifier's existence are now covered by CI.
+
+**The pattern.** This is the sixth gate or verifier defect in the project and the
+second of this exact kind:
+
+| | Defect | Read as |
+|---|---|---|
+| 1 | per-indicator absence penalty | battery wrong |
+| 2 | default argument bound at def-time | sweep inert |
+| 3 | `if "key" in dict` where truthiness was meant | anchors mis-scored |
+| 4 | necessity penalty skipped PARTIAL | vagueness counted |
+| 5 | `EXPECTED_ORDER` missing an anchor (F05) | **ordering collapsed** |
+| 6 | `all_gates_pass` discarding a robust result (F06) | **battery is an artefact** |
+| 7 | clean-room verifier recursed into staging (F07) | **instrument broken** |
+
+Five of the battery's six logic defects were found by the known-answer anchors.
+All of the verifier defects were self-inflicted. The recurring lesson is that a
+verification step must itself be verified: the question "does this checker run
+correctly?" is separate from "what is it checking?", and in five cases the answer
+to the second was confused with the first.
+
+## What none of F05–F07 changes
 
 F01 stands. The perturbation experiment bounds how much F01 matters; it does not
 resolve it. Even the F-B result is conditional: it holds *given* the anchor

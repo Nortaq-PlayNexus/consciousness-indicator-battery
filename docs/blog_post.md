@@ -235,7 +235,7 @@ counterexample and it's dead.
 
 ## Meanwhile, in the tests
 
-Five bugs in our own *verification*, which is a humbling ratio.
+Six bugs in our own *verification*, which is a humbling ratio.
 
 The worst: an ordering gate listing five of the six systems, comparing the sorted
 six-element result against a five-element tuple. It could never match. So it read
@@ -247,12 +247,25 @@ result because the fragile one failed — reporting "the battery is an artefact 
 its constants" and throwing away the finding. A verdict edited to look worse,
 which is its own kind of dishonesty.
 
-Four were the same class as bugs already fixed in the battery: reasons a gate
-fails that aren't about the thing under test. We have no systematic way to check
-that our gates themselves run. Both experiments now assert it.
+The sixth turned up while preparing the release: the clean-room verifier copied the
+repository into a temp directory, walked into the generated deposit staging area,
+found a second copy of the same test files, and reported a collection failure —
+loud, and completely uninformative about the thing it was supposed to be checking.
+
+Five of the six were the same class as bugs already fixed in the battery: reasons
+a gate fails that aren't about the thing under test. In two cases the misdiagnosis
+was severe. One gate reported "the ordering collapsed" when its expected-order
+tuple simply omitted an anchor. Another reported "the battery is an artefact of
+its constants" when the robust result had been discarded by a fragile one. Read
+cold, both are confident scientific-sounding claims that are entirely
+manufactured by the checker.
+
+We have no systematic way to check that our gates themselves run. That is now
+asserted in CI, and the failure table is in `FALSIFICATION/`.
 
 The ratio is the actual lesson. The battery had four broken aggregators. The
-tests had five broken gates. Neither was obvious. Both would have shipped.
+verification machinery had six broken gates. Neither was obvious. All of them
+would have shipped.
 
 ---
 
@@ -308,7 +321,7 @@ beats a third tuning pass.
 We built a rigorous, gated instrument for measuring AI consciousness, then
 admitted in the source code that its calibration is circular.
 
-We found four wrong ways to aggregate the indicators, and five bugs in the tests
+We found four wrong ways to aggregate the indicators, and six bugs in the tests
 meant to catch them.
 
 We showed the *ordering* of systems is robust to arbitrary parameter choices

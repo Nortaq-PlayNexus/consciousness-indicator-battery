@@ -228,7 +228,7 @@ RESULTS/experiment.json       EXP-C001 result + canonical-JSON SHA-256
 RESULTS/experiment_C003.json  EXP-C003 result + SHA-256
 CONFIG/prereg_EXP-C001.json   constants frozen before scoring, incl. the
                               known circularity recorded up front
-FALSIFICATION/                4 broken aggregator designs + 5 gate bugs +
+FALSIFICATION/                4 broken aggregator designs + 6 verifier bugs +
                               2 unresolved confounds
 REPORT/                       technical + plain-English summaries
 ```
