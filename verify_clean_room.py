@@ -21,7 +21,20 @@ import sys
 import tempfile
 from pathlib import Path
 
-EXCLUDE_DIRS = {".git", ".github", "__pycache__", ".pytest_cache", ".venv", "venv", "build", "dist"}
+EXCLUDE_DIRS = {
+    ".git",
+    ".github",
+    "__pycache__",
+    ".pytest_cache",
+    ".venv",
+    "venv",
+    "build",
+    "dist",
+    # Generated deposit staging area. Excluding it matters: a copy of the same
+    # test modules inside it produces duplicate basenames, which makes pytest
+    # collect them twice and fail on module import.
+    "zenodo",
+}
 EXCLUDE_SUFFIX = {".pyc", ".pyo"}
 COPY_EXTRA = {".github"}
 
