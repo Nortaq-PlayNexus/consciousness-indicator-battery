@@ -24,9 +24,17 @@ Do NOT auto-publish on the next run without checking with me first.
 | Tests | 48 passing (1 skipped: lab-engine parity, standalone checkout) |
 | flake8 | exit 0 |
 | Clean room | passed |
-| DOI | **none yet** |
+| DOI | **10.5281/zenodo.23101903** — published 2026-10-02 |
 
-## Remaining manual step
+## Publication: COMPLETE
+
+All six manual steps below were carried out. Zenodo record 23101903 is published
+and resolves without authentication:
+
+    https://doi.org/10.5281/zenodo.23101903
+
+The returned DOI has been recorded in `zenodo/metadata.json`, `CITATION.cff`, the
+README badge row, and this file.
 
 1. https://zenodo.org/me/uploads -> New upload
 2. Attach the GitHub repository (public and non-empty, which it now is)
@@ -38,3 +46,6 @@ Do NOT auto-publish on the next run without checking with me first.
 
 Full field mapping and the accuracy rules for the record description are in
 `zenodo/UPLOAD_INSTRUCTIONS.md`.
+
+Zenodo files are immutable. Any further change requires publishing a new version,
+not editing record 23101903.
