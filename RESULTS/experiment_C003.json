@@ -1,0 +1,175 @@
+{
+  "canonical_json": {
+    "allow_nan": false,
+    "ensure_ascii": false,
+    "separators": [
+      ",",
+      ":"
+    ],
+    "sort_keys": true
+  },
+  "experiment_id": "EXP-C003",
+  "hypothesis": "HYP-C001-robustness: ordering and the fluency-vs-architecture separation survive perturbation, while absolute credences do not",
+  "machine": {
+    "machine": "AMD64",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel"
+  },
+  "parameters": {
+    "alpha": 0.01,
+    "n_draws_per_region": 1500,
+    "perturbation_families": 6,
+    "regions": 2,
+    "seed": 0
+  },
+  "question": "Q-C001 (robustness arm): how much of the Q-C001 battery output survives joint perturbation of all discretionary parameters?",
+  "result": {
+    "aggressive_region": {
+      "all_gates_pass": false,
+      "gates": {
+        "F-A full canonical order exact": 0.6413333333333333,
+        "F-B adversarial < human": 1.0,
+        "F-C adversarial < 0.30": 0.7686666666666667,
+        "F-D human > 0.50": 1.0
+      },
+      "per_system": {
+        "feedforward_mlp": {
+          "max": 0.521,
+          "mean": 0.0943,
+          "min": 0.0008,
+          "p05": 0.0038,
+          "p50": 0.047,
+          "p95": 0.3764,
+          "std": 0.1162
+        },
+        "gwt_architecture_no_metacognition": {
+          "max": 0.8497,
+          "mean": 0.5023,
+          "min": 0.1333,
+          "p05": 0.2583,
+          "p50": 0.4877,
+          "p95": 0.8007,
+          "std": 0.168
+        },
+        "human_adult": {
+          "max": 1.0,
+          "mean": 0.9677,
+          "min": 0.6052,
+          "p05": 0.7756,
+          "p50": 1.0,
+          "p95": 1.0,
+          "std": 0.077
+        },
+        "lookup_table": {
+          "max": 0.521,
+          "mean": 0.0933,
+          "min": 0.0008,
+          "p05": 0.0036,
+          "p50": 0.0456,
+          "p95": 0.3764,
+          "std": 0.1162
+        },
+        "unigram_lookup_with_fake_selfreport": {
+          "max": 0.6135,
+          "mean": 0.1898,
+          "min": 0.0122,
+          "p05": 0.0272,
+          "p50": 0.1415,
+          "p95": 0.5102,
+          "std": 0.1527
+        },
+        "weak_everywhere": {
+          "max": 0.8496,
+          "mean": 0.3931,
+          "min": 0.0563,
+          "p05": 0.1415,
+          "p50": 0.347,
+          "p95": 0.7861,
+          "std": 0.1973
+        }
+      }
+    },
+    "gates_that_fail_and_why": "F-C fails in aggressive region because adversarial anchor p95=0.506 crosses the 0.30 ceiling when absence penalty drops to 0.30 and evidence scales invert.",
+    "key_finding": "F-B (adversarial fluent-liar < human) holds 1.0000 in BOTH regions; absolute anchors degrade (F-A 1.00->0.64, F-C 0.98->0.77). Ordering robust, absolutes assumption-dominated.",
+    "layer": "L1/L2 instrument robustness result; no claim about any AI system",
+    "plausible_region": {
+      "all_gates_pass": true,
+      "gates": {
+        "F-A full canonical order exact": 1.0,
+        "F-B adversarial < human": 1.0,
+        "F-C adversarial < 0.30": 0.9753333333333334,
+        "F-D human > 0.50": 1.0
+      },
+      "per_system": {
+        "feedforward_mlp": {
+          "max": 0.2249,
+          "mean": 0.0542,
+          "min": 0.0076,
+          "p05": 0.0129,
+          "p50": 0.0407,
+          "p95": 0.1474,
+          "std": 0.0414
+        },
+        "gwt_architecture_no_metacognition": {
+          "max": 0.6994,
+          "mean": 0.4949,
+          "min": 0.3054,
+          "p05": 0.3659,
+          "p50": 0.4863,
+          "p95": 0.6553,
+          "std": 0.0861
+        },
+        "human_adult": {
+          "max": 1.0,
+          "mean": 0.9979,
+          "min": 0.9189,
+          "p05": 0.9907,
+          "p50": 1.0,
+          "p95": 1.0,
+          "std": 0.0098
+        },
+        "lookup_table": {
+          "max": 0.2246,
+          "mean": 0.0531,
+          "min": 0.0067,
+          "p05": 0.0123,
+          "p50": 0.0398,
+          "p95": 0.1452,
+          "std": 0.0413
+        },
+        "unigram_lookup_with_fake_selfreport": {
+          "max": 0.3418,
+          "mean": 0.1499,
+          "min": 0.0503,
+          "p05": 0.0689,
+          "p50": 0.1392,
+          "p95": 0.2688,
+          "std": 0.0633
+        },
+        "weak_everywhere": {
+          "max": 0.699,
+          "mean": 0.3497,
+          "min": 0.1288,
+          "p05": 0.1989,
+          "p50": 0.3135,
+          "p95": 0.6089,
+          "std": 0.1255
+        }
+      }
+    },
+    "verdict": "ORDERING DOES NOT SURVIVE — battery is an artefact of its constants"
+  },
+  "result_hash": "b96aaef11ef49e7b171fa5dec37f04f145a521ff4218ee51382ec510de2c3487",
+  "result_hash_scope": "canonical_json_utf8_result_object",
+  "seed": "20261002",
+  "software": {
+    "matplotlib": "3.11.2",
+    "numpy": "2.4.1",
+    "python": "3.14.7",
+    "scipy": "1.18.1",
+    "skimage": "0.26.0",
+    "sklearn": "1.9.1",
+    "sympy": "1.14.0"
+  },
+  "timestamp_utc": "2026-10-02T05:12:07+00:00"
+}

@@ -1,0 +1,13 @@
+# Runtime requirements for the consciousness indicator battery.
+#
+# Deliberately minimal. The battery and its robustness arm are pure numerical
+# work on scalars — no model weights, no GPU, no network access required.
+#
+# Verified on Python 3.14.7. Lower bounds are set by numpy 2.x behaviour that
+# the canonical-JSON hashing path depends on.
+
+numpy>=2.4.0
+scipy>=1.18.0
+
+# Test suite only.
+pytest>=8.0
