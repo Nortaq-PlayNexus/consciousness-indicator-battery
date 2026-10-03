@@ -126,10 +126,15 @@ def build_metadata(meta: dict, description: str) -> dict:
     if meta.get("references"):
         payload["references"] = meta["references"]
     if meta.get("communities"):
-        # Legacy string ids, e.g. "philosophyofmind". The newer UUID form is not
-        # interchangeable: this one resolved as published in v1, so it is reused
-        # rather than "upgraded" to a form that might not.
-        payload["communities"] = meta["communities"]
+        # Legacy community ids, e.g. "philosophyofmind", must be sent as objects
+        # with an 'identifier' key. Passing the bare string is rejected with
+        # "Communities must be an array of objects with an 'identifier' key" --
+        # and because the PUT is all-or-nothing, that failure discards the
+        # description, notes and references in the same request.
+        payload["communities"] = [
+            {"identifier": c} if isinstance(c, str) else c
+            for c in meta["communities"]
+        ]
     return payload
 
 
