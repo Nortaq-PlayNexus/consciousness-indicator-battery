@@ -1,6 +1,16 @@
 cff-version: 1.2.0
 title: "A calibrated indicator battery for AI consciousness, and what survives perturbing it"
-message: "If you use this software, please cite both this work and the indicator framework it implements."
+message: >-
+  If you use this software, please cite both this work and the indicator
+  framework it implements.
+
+  Cite version 2.0.0 (10.5281/zenodo.23111535), which shares the concept DOI
+  10.5281/zenodo.23101902 with version 1.0.0 (10.5281/zenodo.23101903). v2 is a
+  metadata-only correction: v1 published its references as 722 one-character
+  array entries instead of four citations, and carried zero subjects. The
+  scientific content of the two versions is identical, and v1 remains citable.
+  v2 still has zero subjects and no version note, because both fields are
+  silently discarded by Zenodo's deposition API; see zenodo/DEPOSIT_V2.md.
 type: software
 abstract: >-
   A known-answer-gated scoring instrument over the 14 indicator properties
@@ -21,7 +31,12 @@ keywords:
   - calibration
   - registered-report-style-methodology
 license: MIT
-doi: "10.5281/zenodo.23101903"
+# Version 2.0.0 is the version to cite. It shares the concept DOI below with
+# v1.0.0 and is a metadata-only correction of it.
+doi: "10.5281/zenodo.23111535"
+concept-doi: "10.5281/zenodo.23101902"
+supersedes-doi: "10.5281/zenodo.23101903"
+version: "2.0.0"
 repository-code: "https://github.com/Nortaq-PlayNexus/consciousness-indicator-battery"
 url: "https://github.com/Nortaq-PlayNexus/consciousness-indicator-battery"
 keywords-cff:

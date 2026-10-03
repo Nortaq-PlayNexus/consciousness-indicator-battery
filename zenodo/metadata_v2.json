@@ -1,7 +1,7 @@
 {
   "schema": "zenodo-deposit-metadata-v4",
   "upload_type": "software",
-  "title": "A calibrated indicator battery for AI consciousness, and what survives perturbing it",
+  "title": "Consciousness Indicator Battery: calibrated indicators for AI consciousness, and what survives perturbing them",
   "version": "2.0.0",
   "publication_date": "2026-10-03",
   "creators": [
@@ -27,14 +27,34 @@
   "access_right": "open",
   "description_source": "description.md",
   "subjects": [
-    { "id": "mesh:D003243", "title": "Consciousness" },
-    { "id": "euroscivoc:297", "title": "Artificial intelligence" },
-    { "id": "mesh:D009488", "title": "Neurosciences" },
-    { "id": "euroscivoc:307", "title": "Software" },
-    { "id": "euroscivoc:609", "title": "Philosophy" },
-    { "id": "mesh:D015203", "title": "Reproducibility of Results" }
+    {
+      "id": "mesh:D003243",
+      "title": "Consciousness"
+    },
+    {
+      "id": "euroscivoc:297",
+      "title": "Artificial intelligence"
+    },
+    {
+      "id": "mesh:D009488",
+      "title": "Neurosciences"
+    },
+    {
+      "id": "euroscivoc:307",
+      "title": "Software"
+    },
+    {
+      "id": "euroscivoc:609",
+      "title": "Philosophy"
+    },
+    {
+      "id": "mesh:D015203",
+      "title": "Reproducibility of Results"
+    }
   ],
-  "communities": ["philosophyofmind"],
+  "communities": [
+    "philosophyofmind"
+  ],
   "keywords": [
     "ai-consciousness",
     "machine-consciousness",
@@ -86,5 +106,9 @@
   "version_note": "Corrects two metadata defects in version 1.0.0 (DOI 10.5281/zenodo.23101903). The scientific content, code, archive and results are unchanged; this is a metadata-only correction, which is why the minor version is not bumped past 2.0.0.\n\n1. REFERENCES. In 1.0.0 the references field was published as 722 array entries of one character each, rather than the four intended citations. The source metadata held the citations as a single concatenated string, and Zenodo iterated it into characters. Nothing reported the error: a 722-element array of one-character strings is valid JSON, so the upload and every later read both appeared successful. The four citations are recoverable and are correct here.\n\n2. SUBJECTS. In 1.0.0 the record carries zero subjects. Six free-text subject strings were supplied, but Zenodo requires controlled-vocabulary identifiers and silently discards free text. The six identifiers here were looked up in Zenodo's live vocabulary rather than guessed.\n\nBoth defects were found by inspecting the published record rather than trusting the upload. Version 1.0.0 remains published and is not withdrawn: it is the citable record for the scientific content. Cite this version for the corrected metadata.",
   "notes": "NO AI SYSTEM WAS SCORED AND NO CLAIM IS MADE ABOUT AI CONSCIOUSNESS. This work builds and audits an instrument for measuring candidate indicators of consciousness in AI systems; it does not apply that instrument to any system, including the authors' own. It scores no model and no person.\n\nCalibration status: 6 of 6 known-answer anchors pass. The battery is calibrated against published indicator properties, not against a ground truth of consciousness, which does not exist. Passing calibration means internal consistency, not correctness.\n\nOne methodological limit is stated openly and is not resolved: the aggregation temperature used by the battery was chosen by sweeping the same six anchors used to validate it, whose bands are themselves laboratory assumptions. Passing calibration therefore demonstrates internal consistency only. No absolute credence produced by this battery is a measurement; only ranking under shared assumptions is defensible.\n\nRobustness was assessed over 3000 joint perturbations. One control fails by design and is reported as failing: an absolute performance ceiling does not hold under the adversarial region. A fluent liar never outperforms the human baseline in either region.\n\nTwo preregistration-time hypotheses about mechanism were tested and rejected; only magnitudes are established.\n\nVersion 2.0.0 corrects two metadata defects in 1.0.0 and changes nothing scientific. See the version note.",
   "immutable_record_warning": "Zenodo records are immutable once published. Any future change to this deposit must be published as a NEW VERSION (new version DOI, same concept DOI), not as an edit to this record.",
-  "doi": ""
+  "doi": "10.5281/zenodo.23111535",
+  "concept_doi": "10.5281/zenodo.23101902",
+  "published": "2026-10-03",
+  "published_title": "A calibrated indicator battery for AI consciousness, and what survives perturbing it",
+  "published_note": "Published as v2.0.0 with the version-1 title retained. The retitle to match the other two posts required a new version and was not applied before publication. References and contributors are correct (4 and 2). Subjects are zero and version_note is empty, because both fields are accepted and silently discarded by the deposition API and must be entered in the web form. Correcting either requires a v3."
 }
