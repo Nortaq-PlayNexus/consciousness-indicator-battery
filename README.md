@@ -1,5 +1,10 @@
 # A calibrated indicator battery for AI consciousness
 
+> **New to this repository, or picking up an interrupted session?**
+> Read [`HANDOFF.md`](HANDOFF.md) first. It records what exists and where, the
+> Zenodo API traps that cost real bugs here, the outstanding work, and the rule
+> about never deleting a deposit.
+
 **And what survives perturbing every discretionary choice in it.**
 
 ![Calibration](https://img.shields.io/badge/calibration-6%2F6%20anchors%20PASS-brightgreen)
