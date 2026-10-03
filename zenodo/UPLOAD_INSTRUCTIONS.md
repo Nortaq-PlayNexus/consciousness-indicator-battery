@@ -1,9 +1,27 @@
 # Zenodo DOI registration and upload
 
-## Status: PREPARED, NOT UPLOADED
+## STATUS: DONE. These instructions are historical.
 
-Metadata, deposit layout and verification are ready. **No upload has been made and
-no DOI exists yet.** The deposit `doi` field is intentionally empty.
+**This deposit was published.** Cite:
+
+| | |
+|---|---|
+| **v2.0.0 — cite this** | `10.5281/zenodo.23111535` |
+| v1.0.0, still citable | `10.5281/zenodo.23101903` |
+| Concept DOI, shared by both | `10.5281/zenodo.23101902` |
+
+Everything below is the procedure that was followed, kept because the ordering
+matters if a **new version** is ever needed. Zenodo records are immutable, so none
+of it can be repeated against a published record.
+
+**Set every field before publishing.** v2 was published before its subjects and
+version note were entered, because those two fields are silently discarded by the
+deposition API and must be typed in the web form. That mistake costs a v3 to
+correct. See `HANDOFF.md` in the repository root.
+
+---
+
+## Original procedure (historical)
 
 Sequence required before a DOI can be minted:
 
@@ -100,10 +118,16 @@ python verify_clean_room.py
 
 ```powershell
 # after publishing, fill in the returned DOI
-(Get-Content zenodo\metadata.json -Raw) -replace '"doi": ""', '"doi": "10.5281/zenodo.XXXXXXX"' | Set-Content zenodo\metadata.json
+(Get-Content zenodo\metadata.json -Raw) -replace '"doi": ""', '"doi": "10.5281/zenodo.23111535"' | Set-Content zenodo\metadata.json
 ```
 
 Then update `CITATION.cff` and the README badge row.
+
+**Step 5 is the one that cannot be retried.** Everything above is repeatable
+against a draft. This step is only possible because publication was the *last*
+action — and it still was not enough, because two fields (`subjects`,
+`version_note`) can only be set through the web form at all, and were missed.
+Fold them into step 2 of the next version.
 
 ## Accuracy requirements for the record description
 
