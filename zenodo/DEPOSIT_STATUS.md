@@ -142,3 +142,54 @@ C:\Users\natha\AI_RESEARCH\consciousness-indicator-battery
 ```
 
 Do not put a working copy under `%TEMP%`.
+---
+
+## Published — verified 2026-10-04
+
+| version | DOI | concept | archive |
+|---|---|---|---|
+| v1.0.0 | `10.5281/zenodo.23101903` | `10.5281/zenodo.23101902` | superseded on metadata |
+| v2.0.0 | `10.5281/zenodo.23111535` | `10.5281/zenodo.23101902` | 109,495 B |
+| v3.0.0 | `10.5281/zenodo.23122664` | `10.5281/zenodo.23101902` | 115,050 B |
+
+All three resolve through `doi.org`. Cite the concept DOI
+`10.5281/zenodo.23101902` to cover all versions.
+
+## DEFECT: v3.0.0 is not byte-reproducible from this repository
+
+Found during post-publication verification on 2026-10-04.
+
+| | bytes | md5 |
+|---|---|---|
+| published `23122664` | 115,050 | `371e3447554ac602794b10517c0750b6` |
+| rebuilt from HEAD | 116,863 | `00d84b0dbaa604f13f2cf105096bb85d` |
+
+`battery.py` content is byte-identical between the two — zero differing lines. The
+difference is line endings: the published archive carries 858 CRLF pairs where
+this repository has none.
+
+**Cause.** The v3 archive was built from the working copy at
+`%TEMP%\opencode\cib-clean`, which was lost when Windows cleared the temp
+directory. This repository is the re-clone, and it carries `.gitattributes` with
+`* text=auto eol=lf`; the lost copy predates that file. `core.autocrlf` is `true`
+on this machine, which produced the CRLF working tree the archive was built from.
+
+**This is not corruption.** All 41 SHA-256 digests in the published
+`manifest.json` verify against the files beside them, so a reader who downloads
+the archive can confirm it is intact. What fails is narrower: a reader who clones
+this repository and rebuilds gets different bytes than the archive contains.
+
+**Remedy.** Publish v3.0.1 built from the current tree, so repository and artifact
+agree. No code differs, so nothing else needs to change.
+
+## Known gaps on all published versions
+
+- **Zero subjects.** Zenodo's API accepts the field, reports success and stores
+  nothing — verified against both `/api/deposit/depositions` and
+  `/api/records/<id>/draft`. Published records are immutable, so this cannot be
+  corrected in place. Intended values are in `zenodo/metadata_v2.json` and
+  `PUBLISH_CHECKLIST.md`.
+- **Not search-indexed.** Both this project's records are `resource_type:
+  software` and return zero hits on Zenodo DOI and title search, while the
+  `dataset` records from the same period are indexed. Live and citable; only
+  discoverability is affected. Worth re-checking on v3.0.1.
