@@ -1,0 +1,117 @@
+{
+  "schema": "zenodo-deposit-metadata-v4",
+  "upload_type": "software",
+  "title": "Consciousness Indicator Battery: calibrated indicators for AI consciousness, and what survives perturbing them",
+  "version": "3.0.1",
+  "publication_date": "2026-10-03",
+  "creators": [
+    {
+      "name": "ScientificDiscoveryLab contributors",
+      "affiliation": "Scientific Discovery Lab"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Butlin, Patrick",
+      "affiliation": "Global Priorities Institute, University of Oxford",
+      "type": "Other"
+    },
+    {
+      "name": "Long, Robert",
+      "affiliation": "Eleos AI Research",
+      "type": "Other"
+    }
+  ],
+  "license": "mit-license",
+  "language": "eng",
+  "access_right": "open",
+  "description_source": "description.md",
+  "subjects": [
+    {
+      "id": "mesh:D003243",
+      "title": "Consciousness"
+    },
+    {
+      "id": "euroscivoc:297",
+      "title": "Artificial intelligence"
+    },
+    {
+      "id": "mesh:D009488",
+      "title": "Neurosciences"
+    },
+    {
+      "id": "euroscivoc:307",
+      "title": "Software"
+    },
+    {
+      "id": "euroscivoc:609",
+      "title": "Philosophy"
+    },
+    {
+      "id": "mesh:D015203",
+      "title": "Reproducibility of Results"
+    }
+  ],
+  "communities": [
+    "philosophyofmind"
+  ],
+  "keywords": [
+    "ai-consciousness",
+    "machine-consciousness",
+    "consciousness-science",
+    "global-workspace-theory",
+    "recurrent-processing-theory",
+    "higher-order-theories",
+    "attention-schema-theory",
+    "indicator-properties",
+    "mechanistic-interpretability",
+    "reproducibility",
+    "known-answer-calibration",
+    "sensitivity-analysis",
+    "perturbation-analysis",
+    "falsification",
+    "preregistration",
+    "open-science",
+    "ai-welfare"
+  ],
+  "references": [
+    "Butlin, P., Long, R., Elmoznino, E., Bengio, Y., et al. (2023). Consciousness in Artificial Intelligence: Insights from the Science of Consciousness. arXiv:2308.08708.",
+    "Butlin, P., Long, R., Bayne, T., Bengio, Y., et al. (2026). Identifying indicators of consciousness in AI systems. Trends in Cognitive Sciences, 30(6), 488-501. https://doi.org/10.1016/j.tics.2025.10.011",
+    "Long, R., Sebo, J., Butlin, P., Plunkett, D., Campbell, R., Beasley, C., Saad, B., & Sims, T. (2026). Studying AI Welfare Empirically. NYU Center for Mind, Ethics, and Policy & Eleos AI Research. https://nonhumanminds.org/studying-ai-welfare-empirically",
+    "Gurnee, B., Sofroniew, N., Lindsey, J., et al. (2026). Verbalizable Representations Form a Global Workspace in Language Models. Transformer Circuits. https://transformer-circuits.pub/2026/workspace"
+  ],
+  "related_identifiers": [
+    {
+      "relation": "isSupplementTo",
+      "identifier": "https://github.com/Nortaq-PlayNexus/consciousness-indicator-battery",
+      "resource_type": "software",
+      "note": "Source repository. The deposit is the frozen, byte-reproducible archive of the repository at commit 11f36e3. Same MIT licence."
+    },
+    {
+      "relation": "isDocumentedBy",
+      "identifier": "https://arxiv.org/abs/2308.08708",
+      "resource_type": "publication-article"
+    },
+    {
+      "relation": "isDocumentedBy",
+      "identifier": "10.1016/j.tics.2025.10.011",
+      "resource_type": "publication-article"
+    },
+    {
+      "relation": "isDocumentedBy",
+      "identifier": "https://nonhumanminds.org/studying-ai-welfare-empirically",
+      "resource_type": "publication-article"
+    }
+  ],
+  "version_note": "Version 3 corrects two metadata defects that Zenodo would not accept through its API, and applies the house title style. No scientific content changes: the code, archive contents and results are identical to v1 and v2. v1 (10.5281/zenodo.23101903) published its references as 722 one-character array entries instead of four citations and carried zero subjects; v2 (10.5281/zenodo.23111535) fixed the references but still carried zero subjects and no version note. Both fields are accepted by the Zenodo deposition API, report success, and are not persisted, so they must be entered in the web form. This version also retitles to the ProjectName: description form used by the related repositories. All three versions share concept DOI 10.5281/zenodo.23101902.",
+  "notes": "NO AI SYSTEM WAS SCORED AND NO CLAIM IS MADE ABOUT AI CONSCIOUSNESS. This work builds and audits an instrument for measuring candidate indicators of consciousness in AI systems; it does not apply that instrument to any system, including the authors' own. It scores no model and no person.\n\nCalibration status: 6 of 6 known-answer anchors pass. The battery is calibrated against published indicator properties, not against a ground truth of consciousness, which does not exist. Passing calibration means internal consistency, not correctness.\n\nOne methodological limit is stated openly and is not resolved: the aggregation temperature used by the battery was chosen by sweeping the same six anchors used to validate it, whose bands are themselves laboratory assumptions. Passing calibration therefore demonstrates internal consistency only. No absolute credence produced by this battery is a measurement; only ranking under shared assumptions is defensible.\n\nRobustness was assessed over 3000 joint perturbations. One control fails by design and is reported as failing: an absolute performance ceiling does not hold under the adversarial region. A fluent liar never outperforms the human baseline in either region.\n\nTwo preregistration-time hypotheses about mechanism were tested and rejected; only magnitudes are established.\n\nVersion 2.0.0 corrects two metadata defects in 1.0.0 and changes nothing scientific. See the version note.",
+  "immutable_record_warning": "Zenodo records are immutable once published. Any future change to this deposit must be published as a NEW VERSION (new version DOI, same concept DOI), not as an edit to this record.",
+  "doi": "",
+  "concept_doi": "10.5281/zenodo.23101902",
+  "archive": "consciousness-indicator-battery-v3.0.1.zip",
+  "archive_sha256": "726b7584f439c46d7da0e89d4ebe03da",
+  "archive_bytes": 116848,
+  "supersedes": "https://doi.org/10.5281/zenodo.23122664",
+  "supersedes_note": "3.0.1 exists to restore byte-reproducibility. 3.0.0 remains valid and citable, and verifies against its own manifest; it simply cannot be regenerated from source. No code or result differs between them.",
+  "version_note_requested": "v3.0.1 - rebuilds byte-for-byte from the repository; v3.0.0 does not, because it was built from a CRLF working copy and the manifest generator was platform-dependent. No code, result or claim changed. v3.0.0 remains citable and self-consistent."
+}
