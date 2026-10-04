@@ -108,8 +108,20 @@ def stage() -> list[str]:
             for rel in sorted(staged)
         },
     }
+    # newline="\n" is load-bearing, not decoration. Without it, Python's text mode
+    # translates "\n" to "\r\n" on Windows and leaves it alone on Linux, so the
+    # same source tree produces two different manifests on two platforms -- and
+    # therefore two different archives, from a tool whose entire claim is that an
+    # identical tree yields an identical archive.
+    #
+    # This was not theoretical. The v3.0.0 archive carried a CRLF manifest.json,
+    # which is one reason it does not rebuild from the repository: a rebuild here
+    # and a rebuild on Linux would each disagree with what was published, in
+    # different ways.
     (PACKAGE / "manifest.json").write_text(
-        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
     )
     return staged
 
@@ -159,7 +171,24 @@ def verify_archive() -> list[tuple[str, bool, str]]:
         work = scratch / NAME
 
         # The lab-engine parity test is meaningless in an extracted deposit.
+        # Line endings first, because it is the failure that actually shipped:
+        # v3.0.0 went out with 858 CRLF pairs and does not rebuild from the repo.
+        # A stray CRLF from any editor changes every digest in the manifest, so
+        # the gate runs on the extracted archive rather than the working tree --
+        # what matters is what a reader downloads.
         steps = [
+            (
+                "no CRLF in any archive entry",
+                [
+                    sys.executable, "-c",
+                    "import pathlib,sys\n"
+                    "bad=[p for p in sorted(pathlib.Path('.').rglob('*')) "
+                    "if p.is_file() and b'\\r\\n' in p.read_bytes()]\n"
+                    "print(str(len(bad)) + ' file(s) contain CRLF: ' + "
+                    "', '.join(str(p) for p in bad[:5]))\n"
+                    "sys.exit(1 if bad else 0)\n",
+                ],
+            ),
             ("test suite", [sys.executable, "-m", "pytest", "-q"]),
             (
                 "result hash integrity",
