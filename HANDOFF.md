@@ -8,6 +8,58 @@ deposit, or a near-miss. If you change nothing else, preserve the following.
 
 ---
 
+## 0. STANDING RULE — only create a deposit when it is ready to publish
+
+**Stated by the maintainer, 2026-10-04: "only ever have posts drafts are if
+there ready for me to post from now on okay."**
+
+A draft is not a scratchpad. When a draft exists, the maintainer is expected to
+publish it, so creating one asserts that everything behind it is final.
+
+**Before creating any draft, all of these must be true:**
+
+| gate | check |
+|---|---|
+| working tree clean | `git status --porcelain` empty — a cloner must get these bytes |
+| tree is committed and pushed | the draft must match a commit anyone can fetch |
+| archive built from that clean tree | not from a tree with pending edits |
+| archive built twice, digests equal | reproducibility is the product's whole claim |
+| digest recorded in metadata, and re-checked | a copied digest from another version is wrong — `manifest.json` records the version, so each version has its own digest |
+| concept linkage verified | parent concept, not a new fork |
+| description final | including the change note for this version |
+| subjects and version note written down | for pasting into the web form, since the API discards both |
+
+**After creating a draft, freeze the inputs.** Do not commit further changes to
+files that go into the archive until the draft is published or explicitly
+withdrawn. Say plainly that the draft is ready and then stop touching it.
+
+### Why this rule exists
+
+v3.0.1 (`10.5281/zenodo.23137224`) is a published record whose description claims
+the archive "rebuilds byte-for-byte from the repository", and that is false of the
+archive it shipped.
+
+Sequence, exactly:
+
+1. Draft `23137224` was staged with archive `md5:726b7584…`, built from a tree
+   that had an **uncommitted** edit to `HANDOFF.md`.
+2. Work continued. The commit landed, `HANDOFF.md` and `PUBLISH_CHECKLIST.md`
+   were excluded from the archive as self-referential, and the correct archive
+   became `md5:4f360ff9…` — 702 bytes different.
+3. The maintainer published `23137224` during that window.
+4. The published record was immutable, carried the superseded bytes, and made a
+   false claim about itself.
+
+The draft was not ready when it was created: it was built from a dirty tree. Every
+gate above would have caught it. The maintainer is right that the rule belongs on
+the creator, not on them.
+
+`23137224` cannot be edited or deleted. The correction is v3.0.2
+(`https://zenodo.org/deposit/23150723`), which supersedes it under the same
+concept `23101902`.
+
+---
+
 ## 1. What exists
 
 | Project | Location | GitHub | Zenodo |

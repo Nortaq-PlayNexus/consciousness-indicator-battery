@@ -67,3 +67,56 @@ make the checksum self-referential; and because it is rewritten at the end of
 every session, any archive containing it goes stale as soon as anyone does any
 work. An uncommitted edit to it changed the archive by 702 bytes during
 preparation of this version, which is how the problem was found.
+
+---
+
+## What changed in 3.0.2
+
+**No code, no result, and no claim changed.** The three recent versions differ
+only in what is inside the deposit and whether the archive can be regenerated.
+
+| version | archive | rebuilds from source? |
+|---|---|---|
+| 3.0.0 | 115,050 B | no — built from a CRLF working copy |
+| 3.0.1 | 116,848 B | no — see below |
+| **3.0.2** | **109,791 B** | **yes** |
+
+### Why 3.0.1 does not rebuild
+
+3.0.1 shipped the archive built before a circularity was found: `HANDOFF.md` was
+*inside* the deposit and *quoted the deposit's own digest*. That file is
+rewritten at the end of every session, so the archive could never match the
+repository it claimed to be built from.
+
+An uncommitted edit to `HANDOFF.md` changed the archive by 702 bytes, which is
+how the problem surfaced — the draft stopped matching the repository mid-task.
+`HANDOFF.md`, `PUBLISH_CHECKLIST.md` and `RELEASE.md` are now excluded from the
+archive. Session state belongs in the repository, which is versioned and shows it
+changing; a frozen deposit should hold the instrument, not the log of the people
+operating it.
+
+3.0.1 also published with zero subjects, because the API discards that field on
+both endpoints and the value must be typed into the web form.
+
+### 3.0.1 is not withdrawn
+
+It is a complete, internally consistent record and remains citable. All 41
+SHA-256 digests in its `manifest.json` verify against the files beside them. What
+it cannot do is be regenerated from source. 3.0.2 can.
+
+### Reproducing 3.0.2
+
+```
+git clone https://github.com/Nortaq-PlayNexus/consciousness-indicator-battery
+cd consciousness-indicator-battery
+git checkout fdb9d3c
+BATTERY_VERSION=3.0.2 python zenodo/build_zenodo_package.py
+```
+
+Expected archive: **109,791 bytes**,
+`md5:cf7b2953325002e2c1ad913dea8e59fa`.
+
+The build refuses to report success if any check fails, including a gate added
+here that rejects any file in the extracted archive containing CRLF. That gate was
+tested by deliberately leaving a stray CRLF in the tree and confirming the build
+blocked with exit code 1.

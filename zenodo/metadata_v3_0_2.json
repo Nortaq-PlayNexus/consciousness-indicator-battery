@@ -2,7 +2,7 @@
   "schema": "zenodo-deposit-metadata-v4",
   "upload_type": "software",
   "title": "Consciousness Indicator Battery: calibrated indicators for AI consciousness, and what survives perturbing them",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "publication_date": "2026-10-03",
   "creators": [
     {
@@ -108,10 +108,10 @@
   "immutable_record_warning": "Zenodo records are immutable once published. Any future change to this deposit must be published as a NEW VERSION (new version DOI, same concept DOI), not as an edit to this record.",
   "doi": "",
   "concept_doi": "10.5281/zenodo.23101902",
-  "archive": "consciousness-indicator-battery-v3.0.1.zip",
-  "archive_sha256": "4f360ff96de79ad6765d871b14f6c7e7",
+  "archive": "consciousness-indicator-battery-v3.0.2.zip",
+  "archive_sha256": "cf7b2953325002e2c1ad913dea8e59fa",
   "archive_bytes": 109791,
-  "supersedes": "https://doi.org/10.5281/zenodo.23122664",
-  "supersedes_note": "3.0.1 exists to restore byte-reproducibility. 3.0.0 remains valid and citable, and verifies against its own manifest; it simply cannot be regenerated from source. No code or result differs between them.",
-  "version_note_requested": "v3.0.1 - rebuilds byte-for-byte from the repository; v3.0.0 does not, because it was built from a CRLF working copy and the manifest generator was platform-dependent. No code, result or claim changed. v3.0.0 remains citable and self-consistent."
+  "supersedes": "https://doi.org/10.5281/zenodo.23137224",
+  "supersedes_note": "3.0.2 ships the archive that actually rebuilds from source. 3.0.1 did not: it contained HANDOFF.md, which quotes the deposit's own digest, so the archive could never match the repository. 3.0.1 remains citable and verifies against its own manifest. No code, result or claim differs.",
+  "version_note_requested": "v3.0.2 - ships the archive that rebuilds byte-for-byte from the repository (109,791 B, md5:4f360ff9..., commit fdb9d3c, two builds identical). v3.0.1 did not, because the deposit contained a session document quoting its own digest; v3.0.0 did not, because of CRLF line endings and a platform-dependent manifest generator. No code, result or claim changed in any version. v3.0.0 and v3.0.1 remain citable."
 }

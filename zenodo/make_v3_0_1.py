@@ -39,8 +39,11 @@ MUST_CARRY = (
 )
 
 ARCHIVE = "consciousness-indicator-battery-v3.0.1.zip"
-ARCHIVE_BYTES = 116848
-ARCHIVE_MD5 = "726b7584f439c46d7da0e89d4ebe03da"
+#: Digest of the archive built from commit fdb9d3c with a clean working tree.
+#: Two builds of that tree give this value. If a rebuild gives anything else, the
+#: repository and the deposit have diverged -- do not republish around it.
+ARCHIVE_BYTES = 109791
+ARCHIVE_MD5 = "4f360ff96de79ad6765d871b14f6c7e7"
 
 APPENDIX = """
 ---
@@ -86,11 +89,19 @@ cd consciousness-indicator-battery
 BATTERY_VERSION=3.0.1 python zenodo/build_zenodo_package.py
 ```
 
-Expected archive: **116,848 bytes**, `md5:726b7584f439c46d7da0e89d4ebe03da`.
+Expected archive: **109,791 bytes**, `md5:4f360ff96de79ad6765d871b14f6c7e7`,
+built from commit `fdb9d3c` with a clean working tree.
 
 The build refuses to report success if any check fails, including the new
 line-ending gate. It was tested by deliberately leaving a stray CRLF in the tree
 and confirming the build blocked with exit code 1.
+
+Session documents -- `HANDOFF.md`, `PUBLISH_CHECKLIST.md`, `RELEASE.md` -- are
+excluded from the archive. `HANDOFF.md` quotes this digest, so including it would
+make the checksum self-referential; and because it is rewritten at the end of
+every session, any archive containing it goes stale as soon as anyone does any
+work. An uncommitted edit to it changed the archive by 702 bytes during
+preparation of this version, which is how the problem was found.
 """
 
 
