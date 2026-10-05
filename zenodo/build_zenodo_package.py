@@ -55,7 +55,21 @@ EXCLUDE_NAMES = {"manifest.json"}
 #: file, which changes the hash, which invalidates the value just written. It is
 #: release-management state rather than part of the deposit, so it stays in the
 #: repository and out of the archive.
-EXCLUDE_FROM_ARCHIVE = {"RELEASE.md"}
+#:
+#: HANDOFF.md and PUBLISH_CHECKLIST.md are excluded on the same reasoning, and for
+#: a second reason that only became apparent in practice:
+#:
+#:  * HANDOFF.md quotes the archive digest too, so the same circularity applies.
+#:  * Both are session operations, not the instrument. HANDOFF.md is rewritten
+#:    whenever a session ends, so any archive containing it goes stale the moment
+#:    anyone does any work -- which defeats the point of a frozen deposit.
+#:
+#: Concretely: an uncommitted edit to HANDOFF.md changed the archive digest, so the
+#: archive stopped matching the repository it claims to be built from. That is the
+#: exact defect v3.0.1 exists to fix, reintroduced by a file that should never
+#: have been in the deposit. Session state belongs in the repository, which is
+#: versioned and where a reader can see it change.
+EXCLUDE_FROM_ARCHIVE = {"RELEASE.md", "HANDOFF.md", "PUBLISH_CHECKLIST.md"}
 
 
 def sha256_file(path: Path, chunk: int = 1 << 20) -> str:
