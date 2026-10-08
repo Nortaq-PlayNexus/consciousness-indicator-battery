@@ -95,8 +95,43 @@ archive. Session state belongs in the repository, which is versioned and shows i
 changing; a frozen deposit should hold the instrument, not the log of the people
 operating it.
 
-3.0.1 also published with zero subjects, because the API discards that field on
-both endpoints and the value must be typed into the web form.
+### Subjects: this record has six, and the reason earlier ones had none
+
+1.0.0 through 3.0.2 all published with **zero subjects**. This record has six.
+
+The cause was not an API limitation. For three versions this repository recorded
+that Zenodo's deposition API discards `subjects`, that the web form was the only
+route, and that the field was therefore permanently lost. That was wrong, and it
+was wrong in a way that survived every check made at the time, because the
+obvious check passes. Subjects **are** settable through the API. The field was
+never broken; the payload shape was:
+
+| sent | stored |
+|---|---|
+| `[{"id": "mesh:D003243"}]` | nothing |
+| `[{"id": ..., "title": ...}]` | nothing |
+| `["mesh:D003243"]` | HTTP 500 |
+| `[{"scheme": "mesh", "id": "D003243"}]` | **scheme only -- identifier dropped** |
+| `[{"term": "Consciousness"}]` | term only |
+| `[{"term": ..., "identifier": ..., "scheme": ...}]` | stored in full |
+
+Zenodo persists a subject as `term`, `identifier` and `scheme`, and only `term`
+is displayed or indexed. The fourth row is the reason this went unnoticed for so
+long: it returns HTTP 200, the subject count rises, and the record looks
+populated while the identifier -- the part that makes it a controlled-vocabulary
+term rather than a label -- has been silently discarded. Every version of this
+record was checked by counting subjects, which is exactly the check that cannot
+detect this.
+
+This is recorded rather than quietly fixed, because the generalisable error is
+not about Zenodo. It is that "the API returns 200 and the count went up" was
+treated as "the field was saved", and a field that reports success while
+discarding its content is indistinguishable from a working one unless the
+content itself is read back.
+
+The six subjects are: Consciousness, Artificial intelligence, Neurosciences,
+Software, Philosophy, Reproducibility of Results. Each identifier was checked
+against Zenodo's own vocabulary (`/api/subjects`) before it was written.
 
 ### 3.0.1 is not withdrawn
 

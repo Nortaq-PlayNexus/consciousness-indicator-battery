@@ -5,10 +5,16 @@ were verified by public-API read-back; see `PUBLICATION_VERIFICATION.md`. This
 file previously listed three drafts awaiting a publish click, which was true when
 written and stopped being true when the maintainer published them.
 
-That batch also published with **zero subjects on all twelve records**. The web
-form did not persist them either, and published records are immutable, so that is
-permanent. Closing it means a new version of each record with subjects typed into
-the form — a deliberate cost, not a defect to patch quietly.
+That batch also published with **zero subjects on all twelve records**, and this
+file previously recorded the reason as "the web form did not persist them either,
+so that is permanent". Both claims have since been disproven: Zenodo's API sets
+subjects correctly once the payload uses `term` + `identifier` + `scheme`, and
+`zenodo/set_subjects.py` does exactly that with a read-back check.
+
+The twelve remain immutable, so correcting them still means a new version each.
+What changed is that this is now an ordinary scripted operation rather than twelve
+manual form entries, and the diagnostic that hid the bug — counting subjects
+instead of reading them — should not be repeated.
 
 ## Still outstanding: battery v3.0.1
 

@@ -56,11 +56,16 @@ contents and results are identical to v1.
 ### What v2 did NOT fix
 
 - **Subjects: still zero.** Six controlled-vocabulary identifiers were supplied.
-  Zenodo's deposition API accepts them, reports success, and does not persist them.
-- **Version note: still empty.** Same behaviour.
+  Zenodo's deposition API accepted them, reported success, and did not persist
+  them. **This was diagnosed as an API limitation and was wrong** — the field
+  takes `term` + `identifier` + `scheme`, and `[{"id": ...}]` is simply not the
+  shape it stores. Superseded by `zenodo/set_subjects.py`; v3.0.3 is the first
+  version of this record to carry subjects.
+- **Version note: still empty.** Same behaviour, and this one **is** real.
 
-Both need the web form. Correcting either requires a v3, because records are
-immutable. The exact values are in `zenodo/DEPOSIT_V2.md`.
+Only the version note needs the web form. Records are immutable, so correcting
+either on a published version means a new version. The exact subject values are
+in `zenodo/DEPOSIT_V2.md`.
 
 ### Title
 

@@ -240,11 +240,20 @@ the untracked network-calling guard can no longer ship by accident.
 
 ### Before publishing any of the three
 
-**Subjects cannot be set through the API.** All three drafts currently have
-`subjects: 0`, and the API accepts the field, reports success, and stores
-nothing. The intended values for the battery are in `metadata_v3_0_3.json` and
-`PUBLISH_CHECKLIST.md`. Type them into the web form. Once published they are
-permanent.
+**Nothing is left to do by hand.** Subjects are set on all three drafts and
+verified: 6 on `23229094`, 5 on `23229093`, 5 on `23229095`, each with `term`,
+`identifier` and `scheme` present.
+
+This corrects a conclusion this repository carried for three versions, recorded
+in `DRAFT_23122664.md`, `DEPOSIT_STATUS.md` and `PUBLISH_v3_0_2.md`: that Zenodo's
+API discards `subjects` and the field must be typed into the web form. **It does
+not.** The field was never broken, the payload shape was wrong. See
+`zenodo/set_subjects.py` for the measurements and the shape that works.
+
+The trap worth remembering: `[{"scheme": "mesh", "id": "D003243"}]` returns 200,
+raises the count, and **drops the identifier**, leaving subjects that name a
+scheme and nothing else. Checking `len(subjects)` alone would have passed that
+straight through to a permanent record.
 
 ### Other open items, not fixed
 
@@ -259,11 +268,17 @@ permanent.
 
 ## Known gaps on all published versions
 
-- **Zero subjects.** Zenodo's API accepts the field, reports success and stores
-  nothing — verified against both `/api/deposit/depositions` and
-  `/api/records/<id>/draft`. Published records are immutable, so this cannot be
-  corrected in place. Intended values are in `zenodo/metadata_v2.json` and
-  `PUBLISH_CHECKLIST.md`.
+- **Zero subjects — on every version published before 3.0.3.** This file
+  previously explained it as an API limitation, "verified against both
+  `/api/deposit/depositions` and `/api/records/<id>/draft`". That verification was
+  sound and the conclusion was still wrong: both endpoints store subjects
+  correctly when given `term` + `identifier` + `scheme`. The probes used
+  `{"id": ...}`, which stores nothing. Published records remain immutable, so
+  these versions still cannot be corrected in place — that part is unchanged —
+  but it now takes one scripted new version each, not a manual form entry.
+  Intended values are in `zenodo/metadata_v2.json`; the tool is
+  `zenodo/set_subjects.py`. v3.0.3 is the first version of this record to carry
+  subjects.
 - **Not search-indexed.** Both this project's records are `resource_type:
   software` and return zero hits on Zenodo DOI and title search, while the
   `dataset` records from the same period are indexed. Live and citable; only

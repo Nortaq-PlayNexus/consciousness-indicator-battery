@@ -27,7 +27,8 @@ publish it, so creating one asserts that everything behind it is final.
 | digest recorded in metadata, and re-checked | a copied digest from another version is wrong — `manifest.json` records the version, so each version has its own digest |
 | concept linkage verified | parent concept, not a new fork |
 | description final | including the change note for this version |
-| subjects and version note written down | for pasting into the web form, since the API discards both |
+| subjects set via `zenodo/set_subjects.py` | reads back `term` + `identifier` + `scheme` per subject; the API stores them fine if the payload shape is right |
+| version note written down | **web form only** — this one field really is discarded by the API on both endpoints |
 
 **After creating a draft, freeze the inputs.** Do not commit further changes to
 files that go into the archive until the draft is published or explicitly
@@ -144,10 +145,15 @@ on 2026-10-08. It is noted here so the next session does not discover it again.
 | prime gap statistics | 1.0.0 | `10.5281/zenodo.23132767` |
 | water acoustic response | 1.0.0 | `10.5281/zenodo.23132771` |
 
-**Subjects: 0 of 12.** The web form did not take them either, and published
-records are immutable, so this is now permanent for all twelve. Fixing it means a
-new version of each with subjects typed into the form. See D2 in
-`PUBLICATION_VERIFICATION.md`.
+**Subjects: 0 of 12 — and the recorded reason was wrong.** This file previously
+said the web form did not take them either, and that the gap was therefore
+permanent. Both halves of that are now known to be false. The API does set
+subjects; the payload shape used here was wrong, and so was the one used in the
+form. See `zenodo/set_subjects.py` for the measurements.
+
+The records are still immutable, so those twelve cannot be corrected in place
+regardless — that part stands. But it is now a *new version* away rather than
+*impossible*, and a new version can be produced entirely through the API.
 
 ### ~~One record still staged: battery v3.0.1~~ — superseded, see above
 
