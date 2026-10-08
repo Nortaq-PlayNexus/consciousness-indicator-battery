@@ -198,6 +198,65 @@ this repository and rebuilds gets different bytes than the archive contains.
 byte-for-byte from the current tree. No code, result, or claim differs across
 v3.0.0, v3.0.1 and v3.0.2.
 
+## Drafts awaiting publication — reviewed 2026-10-08
+
+Three drafts are staged and **unpublished**. Nothing below has a DOI yet, so all
+of it is still correctable.
+
+| draft | project | version | concept | archive |
+|---|---|---|---|---|
+| `23229093` | ScientificDiscoveryLab | 2.0.1 | `23109116` (v2.0.0 = `23122787`) | `ScientificDiscoveryLab-v2.0.1.zip`, 6,785,251 B |
+| `23229094` | Consciousness Indicator Battery | 3.0.3 | `23101902` (v3.0.2 = `23150723`) | `consciousness-indicator-battery-v3.0.3.zip`, 110,029 B |
+| `23229095` | Phantom Vision Lab | 2.0.1 | `23112115` (v2.0.0 = `23123095`) | `phantom-vision-lab-v2.0.1.zip`, 99,211 B |
+
+Edit URLs are `https://zenodo.org/deposit/<id>`.
+
+### v3.0.3 was not publishable as staged
+
+It has been corrected. What was wrong:
+
+1. **The archive did not rebuild from the repository.** `CITATION.cff` and
+   `README.md` were inside the deposit as modified working-tree files, and
+   `tests/test_citation.py` was inside it while untracked. Both point at the same
+   defect as v3.0.1 — the archive is staged by walking the working tree, so
+   uncommitted work silently becomes part of a permanently frozen deposit.
+2. **The description was byte-identical to v3.0.2's.** It never mentioned 3.0.3,
+   had no section saying what changed, and its reproduction steps still
+   instructed `BATTERY_VERSION=3.0.1` and `3.0.2`.
+3. **The notes** ended by describing 2.0.0. **`publication_date`** was
+   2026-10-03. **`description_source`** pointed at `description.md`, which does
+   not exist. The `related_identifiers` note named a commit that is not an
+   ancestor. **`version_note_requested`** was headed "v3.0.2", copied verbatim.
+
+Rebuilt at commit `b47987e`: **110,029 B**, `md5:33a4e5a7940881fa6eac4588d00a9e49`,
+`sha256:d8aa4f3d2bb92b51644bb7e423fada5be0bd6820b09e965bcaded23e09cab657`.
+Verified byte-for-byte from a fresh `git clone`, identical across repeated builds,
+all four build gates passing.
+
+The root cause is now gated: `preflight_clean_tree()` in
+`build_zenodo_package.py` fails the build and names every file that would change
+the archive without being committed. `tests/` is excluded from the deposit, so
+the untracked network-calling guard can no longer ship by accident.
+
+### Before publishing any of the three
+
+**Subjects cannot be set through the API.** All three drafts currently have
+`subjects: 0`, and the API accepts the field, reports success, and stores
+nothing. The intended values for the battery are in `metadata_v3_0_3.json` and
+`PUBLISH_CHECKLIST.md`. Type them into the web form. Once published they are
+permanent.
+
+### Other open items, not fixed
+
+- `23229095` has no Zenodo community (`communities: null`) and no references.
+  Neither is required; no community slug was guessed, because an invalid one
+  fails the PUT all-or-nothing and would discard the rest of the metadata.
+- The v2.0.1 archives for ScientificDiscoveryLab and Phantom Vision Lab are not
+  present locally, so their uploads were verified by Zenodo's own reported size
+  and checksum only, not against a local build.
+
+---
+
 ## Known gaps on all published versions
 
 - **Zero subjects.** Zenodo's API accepts the field, reports success and stores
