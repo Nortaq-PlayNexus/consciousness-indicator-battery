@@ -27,7 +27,7 @@ import subprocess
 import sys
 import tempfile
 import zipfile
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parent.parent
 ZENODO = ROOT / "zenodo"
@@ -43,9 +43,18 @@ ARCHIVE = ZENODO / f"consciousness-indicator-battery-v{VERSION}.zip"
 
 NAME = "consciousness-indicator-battery"
 
+#: `tests/` holds repository-hygiene guards rather than instrument tests. The one
+#: file in it (test_citation.py) makes a live network call to the Zenodo API and
+#: asserts that CITATION.cff cites the newest version on the concept -- which a
+#: frozen deposit can never satisfy, because the archive cannot cite the version
+#: that contains it. It is also outside pytest.ini's `testpaths`, so it never runs.
+#: Shipping a test that cannot pass, needs the network, and never executes is worse
+#: than not shipping it: it contradicts the deposit's own "no network" claim and it
+#: puts a file in the archive that no clone could reproduce while it sat untracked.
+#: The instrument's own tests are the four root-level test_*.py files.
 EXCLUDE_DIRS = {
     ".git", ".github", "__pycache__", ".pytest_cache", ".venv", "venv",
-    "build", "dist", "zenodo", ".ruff_cache", ".mypy_cache",
+    "build", "dist", "zenodo", "tests", ".ruff_cache", ".mypy_cache",
 }
 EXCLUDE_SUFFIX = {".pyc", ".pyo", ".zip"}
 #: `manifest.json` is generated during staging.
@@ -70,6 +79,58 @@ EXCLUDE_NAMES = {"manifest.json"}
 #: have been in the deposit. Session state belongs in the repository, which is
 #: versioned and where a reader can see it change.
 EXCLUDE_FROM_ARCHIVE = {"RELEASE.md", "HANDOFF.md", "PUBLISH_CHECKLIST.md"}
+
+
+def would_be_staged(rel: str) -> bool:
+    """True if a repository-relative path would end up inside the archive."""
+    parts = PurePosixPath(rel).parts
+    if any(p in EXCLUDE_DIRS for p in parts):
+        return False
+    name = parts[-1]
+    if name in EXCLUDE_NAMES or name in EXCLUDE_FROM_ARCHIVE:
+        return False
+    if PurePosixPath(rel).suffix in EXCLUDE_SUFFIX:
+        return False
+    return True
+
+
+def preflight_clean_tree() -> list[str]:
+    """Fail the build if anything uncommitted would change the archive.
+
+    This gate exists because of a defect that has now recurred twice. The archive
+    is assembled by walking the working tree, not by reading a committed manifest,
+    so any uncommitted edit or untracked file inside the staged set silently
+    becomes part of a deposit that Zenodo will freeze forever. v3.0.1 shipped an
+    archive built while HANDOFF.md carried an uncommitted edit; the draft for
+    v3.0.3 shipped an archive containing CITATION.cff and README.md as modified
+    working-tree files, plus tests/test_citation.py while it was still untracked.
+    A reader cloning the repository and rebuilding got different bytes both times.
+
+    The build used to say "byte-reproducible" and mean "from an identical tree".
+    This makes the premise checkable: identical tree is now enforced, not assumed.
+    """
+    def git(*args: str) -> str:
+        proc = subprocess.run(
+            ["git", *args], cwd=ROOT, capture_output=True, text=True
+        )
+        if proc.returncode != 0:
+            raise RuntimeError(
+                f"git {' '.join(args)} failed: {proc.stderr.strip()}"
+            )
+        return proc.stdout
+
+    dirty: list[str] = []
+    # Tracked files that differ from HEAD, including deletions and staged edits.
+    for line in git("diff", "--name-only", "HEAD").splitlines():
+        if line.strip() and would_be_staged(line.strip()):
+            dirty.append(line.strip())
+    # Untracked files that are not ignored. `tests/` is ignored by EXCLUDE_DIRS, so
+    # a repo-hygiene guard living there does not block a build.
+    for line in git("ls-files", "--others", "--exclude-standard").splitlines():
+        if line.strip() and would_be_staged(line.strip()):
+            dirty.append(line.strip())
+
+    return sorted(set(dirty))
 
 
 def sha256_file(path: Path, chunk: int = 1 << 20) -> str:
@@ -235,6 +296,20 @@ def verify_archive() -> list[tuple[str, bool, str]]:
 
 
 def main() -> int:
+    # First, because everything below is worthless without it: the archive is
+    # staged from the working tree, so a dirty tree produces an archive that no
+    # clone can reproduce.
+    dirty = preflight_clean_tree()
+    if dirty:
+        print("DO NOT UPLOAD -- the working tree is not clean, and the archive is")
+        print("staged from the working tree. These files would go into the deposit")
+        print("but are not committed, so a reader could not reproduce the archive:")
+        for rel in dirty:
+            print(f"  {rel}")
+        print("\nCommit or stash them, then rebuild. To bypass deliberately, stage")
+        print("from a clean clone instead -- do not disable this check.")
+        return 1
+
     print(f"staging {ROOT.name} -> {PACKAGE.relative_to(ROOT)}")
     staged = stage()
     print(f"  {len(staged)} files, manifest.json written")

@@ -4,13 +4,22 @@ message: >-
   If you use this software, please cite both this work and the indicator
   framework it implements.
 
-  Cite version 2.0.0 (10.5281/zenodo.23111535), which shares the concept DOI
-  10.5281/zenodo.23101902 with version 1.0.0 (10.5281/zenodo.23101903). v2 is a
-  metadata-only correction: v1 published its references as 722 one-character
-  array entries instead of four citations, and carried zero subjects. The
-  scientific content of the two versions is identical, and v1 remains citable.
-  v2 still has zero subjects and no version note, because both fields are
-  silently discarded by Zenodo's deposition API; see zenodo/DEPOSIT_V2.md.
+  Cite version 3.0.2 (10.5281/zenodo.23150723), the current version to cite. It
+  shares the concept DOI 10.5281/zenodo.23101902 with every prior version, so
+  that concept DOI always resolves to the latest.
+
+  Version history, all metadata-only; no code, result, or claim differs across
+  them. 1.0.0 (10.5281/zenodo.23101903) published its references as 722
+  one-character array entries instead of four citations. 2.0.0
+  (10.5281/zenodo.23111535) corrected that. 3.0.0 (10.5281/zenodo.23122664) was
+  the first version whose archive rebuilds byte-for-byte from the repository.
+  3.0.1 (10.5281/zenodo.23137224) is superseded and should not be cited: its
+  description claimed byte-for-byte rebuildability of an archive that did not
+  have it, because the draft was built from a tree with an uncommitted edit.
+  3.0.2 exists only to correct that claim. 3.0.1 remains citable but wrong.
+
+  All versions carry zero subjects and no version note, because both fields are
+  silently discarded by Zenodo's deposition API; see HANDOFF.md section 2.
 type: software
 abstract: >-
   A known-answer-gated scoring instrument over the 14 indicator properties
@@ -31,12 +40,13 @@ keywords:
   - calibration
   - registered-report-style-methodology
 license: MIT
-# Version 2.0.0 is the version to cite. It shares the concept DOI below with
-# v1.0.0 and is a metadata-only correction of it.
-doi: "10.5281/zenodo.23111535"
+# Version 3.0.2 is the version to cite. It shares the concept DOI below with
+# every earlier version. v3.0.1 is superseded: its description made a
+# byte-reproducibility claim its own archive did not bear.
+doi: "10.5281/zenodo.23150723"
 concept-doi: "10.5281/zenodo.23101902"
-supersedes-doi: "10.5281/zenodo.23101903"
-version: "2.0.0"
+supersedes-doi: "10.5281/zenodo.23137224"
+version: "3.0.2"
 repository-code: "https://github.com/Nortaq-PlayNexus/consciousness-indicator-battery"
 url: "https://github.com/Nortaq-PlayNexus/consciousness-indicator-battery"
 keywords-cff:

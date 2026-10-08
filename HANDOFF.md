@@ -64,24 +64,74 @@ concept `23101902`.
 
 | Project | Location | GitHub | Zenodo |
 |---|---|---|---|
-| consciousness-indicator-battery | `C:\Users\natha\AI_RESEARCH\consciousness-indicator-battery` | `Nortaq-PlayNexus/consciousness-indicator-battery` | published **v3 `10.5281/zenodo.23122664`**, concept `10.5281/zenodo.23101902` |
-| phantom_vision_lab | `C:\Users\natha\code\phantom_vision_lab` | `Nortaq-PlayNexus/phantom-vision-lab` | published **`10.5281/zenodo.23112116`** |
-| ScientificDiscoveryLab | git copy `C:\Users\natha\AI_RESEARCH\ScientificDiscoveryLab`; **source of truth** `C:\Users\natha\ScientificDiscoveryLab` | `Nortaq-PlayNexus/ScientificDiscoveryLab` | published **`10.5281/zenodo.23109117`** |
+| consciousness-indicator-battery | `C:\Users\natha\AI_RESEARCH\consciousness-indicator-battery` | `Nortaq-PlayNexus/consciousness-indicator-battery` | published **v3.0.2 `10.5281/zenodo.23150723`**, concept `10.5281/zenodo.23101902` |
+| phantom_vision_lab | `C:\Users\natha\code\phantom_vision_lab` | `Nortaq-PlayNexus/phantom_vision_lab` | published **v2 `10.5281/zenodo.23123095`**, concept `10.5281/zenodo.23112115` |
+| ScientificDiscoveryLab | git copy `C:\Users\natha\AI_RESEARCH\ScientificDiscoveryLab`; **source of truth** `C:\Users\natha\ScientificDiscoveryLab` | `Nortaq-PlayNexus/ScientificDiscoveryLab` | published **v2 `10.5281/zenodo.23122787`**, concept `10.5281/zenodo.23109116` |
 
 **All CI green.** Battery 48 tests. Phantom Vision Lab 28 tests, 5 jobs. Lab 543
 tests, 5 jobs, 20 expected excluded-data failures.
 
-### Twelve records published 2026-10-04
+### Fifteen records published — verified by API read-back 2026-10-08
 
-**All twelve are published and verified.** This section previously said the three
-umbrella records were staged drafts awaiting a publish click. That was true when
-written and stopped being true the moment the maintainer published them.
-`PUBLICATION_VERIFICATION.md` in the laboratory repository is the record of truth,
-built from public-API read-backs rather than a publish click.
+**All published and verified against the live Zenodo API**, not against a publish
+click. This section previously said the three umbrella records were staged drafts
+awaiting a publish click, and later said battery v3.0.1 was still `unsubmitted`.
+Both were true when written and stopped being true. The battery is now at
+**v3.0.2**, and a fifteenth record exists that no document here mentioned.
+`PUBLICATION_VERIFICATION.md` in the laboratory repository remains the record of
+truth for the twelve of 2026-10-04.
 
-| Record | Version | DOI |
-|---|---|---|
-| battery | 3.0.0 | `10.5281/zenodo.23122664` |
+| Record | Version | DOI | Published |
+|---|---|---|---|
+| battery | **3.0.2** | `10.5281/zenodo.23150723` | 2026-10-05 |
+| battery (superseded) | 3.0.1 | `10.5281/zenodo.23137224` | 2026-10-04 |
+| battery | 3.0.0 | `10.5281/zenodo.23122664` | 2026-10-03 |
+| ScientificDiscoveryLab | 2.0.0 | `10.5281/zenodo.23122787` | 2026-10-03 |
+| phantom vision lab | 2.0.0 | `10.5281/zenodo.23123095` | 2026-10-03 |
+| speckle contrast law | 1.0.0 | `10.5281/zenodo.23132744` | 2026-10-04 |
+| vortex density | 1.0.0 | `10.5281/zenodo.23132746` | 2026-10-04 |
+| discrete vortex detection bias | 1.0.0 | `10.5281/zenodo.23132748` | 2026-10-04 |
+| topology-measurement definition | 1.0.0 | `10.5281/zenodo.23132753` | 2026-10-04 |
+| RNG certification | 1.0.0 | `10.5281/zenodo.23132759` | 2026-10-04 |
+| percolation thresholds and exponents | 1.0.0 | `10.5281/zenodo.23132761` | 2026-10-04 |
+| Feigenbaum universality | 1.0.0 | `10.5281/zenodo.23132763` | 2026-10-04 |
+| prime gap statistics | 1.0.0 | `10.5281/zenodo.23132767` | 2026-10-04 |
+| water acoustic response | 1.0.0 | `10.5281/zenodo.23132771` | 2026-10-04 |
+| **COSMOS test suite** | **0.1.0** | `10.5281/zenodo.23204768` | 2026-10-07 |
+
+**Subjects: 0 of 15.** Confirmed by read-back on every record. Zenodo's API
+accepts the field, reports success and stores nothing; the web form did not take
+them either, and published records are immutable. This is now permanent for all
+fifteen. Fixing it means a new version of each with subjects typed into the form.
+See D2 in `PUBLICATION_VERIFICATION.md`.
+
+**Version notes: absent on all 15**, same cause.
+
+### Battery version history — which to cite
+
+Cite **v3.0.2** (`10.5281/zenodo.23150723`). No code, result, or claim differs
+across any of these; they differ only in what the deposit contains and whether
+it can be regenerated from the repository.
+
+| version | DOI | rebuilds byte-for-byte? | note |
+|---|---|---|---|
+| 1.0.0 | `10.5281/zenodo.23101903` | no | references published as 722 one-character array entries |
+| 2.0.0 | `10.5281/zenodo.23111535` | no | metadata-only correction of v1 |
+| 3.0.0 | `10.5281/zenodo.23122664` | no | CRLF working copy; platform-dependent manifest generator |
+| 3.0.1 | `10.5281/zenodo.23137224` | **no — see below** | superseded; do not cite |
+| **3.0.2** | **`10.5281/zenodo.23150723`** | **yes** | **cite this one** |
+
+v3.0.1's description claims the archive rebuilds byte-for-byte from the
+repository, and that is false of the archive it shipped, because the draft was
+built from a tree with an uncommitted edit. It is immutable and cannot be
+corrected in place. v3.0.2 exists solely to correct that claim. See section 0.
+
+### COSMOS test suite
+
+`10.5281/zenodo.23204768`, v0.1.0, published 2026-10-07, **GPL-3.0**, repository
+`Nortaq-PlayNexus/COSMOS-TEST-SUITE`, CI green. This record was not tracked in any
+status document in any of these repositories until it was found by API read-back
+on 2026-10-08. It is noted here so the next session does not discover it again.
 | ScientificDiscoveryLab | 2.0.0 | `10.5281/zenodo.23122787` |
 | phantom vision lab | 2.0.0 | `10.5281/zenodo.23123095` |
 | speckle contrast law | 1.0.0 | `10.5281/zenodo.23132744` |
@@ -99,24 +149,15 @@ records are immutable, so this is now permanent for all twelve. Fixing it means 
 new version of each with subjects typed into the form. See D2 in
 `PUBLICATION_VERIFICATION.md`.
 
-### One record still staged: battery v3.0.1
+### ~~One record still staged: battery v3.0.1~~ — superseded, see above
 
-`https://zenodo.org/deposit/23137224` — `unsubmitted`, no DOI minted.
+This section previously said v3.0.1 (`23137224`) was `unsubmitted` with no DOI
+minted. **It was published on 2026-10-04 and is superseded.** v3.0.2 was published
+on 2026-10-05. Both are immutable. Do not cite v3.0.1.
 
-v3.0.0 does not rebuild byte-for-byte from this repository; v3.0.1 does. Two causes
-were found, not one: the archive was built from a CRLF working copy, **and** the
-manifest generator used `write_text()` with no `newline=`, so the same tree
-produced different manifests on Windows and Linux. The second cause was in the
-build tool, and it is fixed.
-
-Verified before staging: 116,848 B, `md5:726b7584f439c46d7da0e89d4ebe03da`,
-two builds identical, 0 of 43 entries CRLF, 4/4 gates pass, concept `23101902`
-correct. **No code, result, or claim differs from v3.0.0.** v3.0.0 is not
-withdrawn — all 41 digests in its manifest verify against its own files — but
-v3.0.1 is the version to build from.
-
-This is also the last chance to attach subjects to this record: paste the six in
-`zenodo/PUBLISH_v3_0_1.md` before publishing.
+The byte-reproducibility work described below was real and did land: v3.0.2's
+archive (109,791 B, `md5:cf7b2953325002e2c1ad913dea8e59fa`) does rebuild
+byte-for-byte, and the manifest generator now pins `newline=""`.
 
 ### Not published, and why
 
@@ -314,7 +355,7 @@ before anything irreversible, and does not want deposits deleted.
 
 ---
 
-## Working-copy locations � do not use %TEMP%
+## Working-copy locations — do not use %TEMP%
 
 | Repository | Location |
 |---|---|
@@ -326,7 +367,7 @@ before anything irreversible, and does not want deposits deleted.
 The battery repository lived at
 `C:\Users\natha\AppData\Local\Temp\opencode\cib-clean` until 2026-10-04, when
 **that directory was cleared and the working copy was lost.** It was recovered by
-cloning from GitHub � no committed work was lost � but uncommitted work would
+cloning from GitHub — no committed work was lost — but uncommitted work would
 have been, and a Zenodo working directory is not the place for that.
 
 The twelve records published on 2026-10-04 live on Zenodo's servers and were never

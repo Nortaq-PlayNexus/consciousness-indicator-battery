@@ -1,0 +1,118 @@
+{
+  "schema": "zenodo-deposit-metadata-v4",
+  "upload_type": "software",
+  "title": "Consciousness Indicator Battery: calibrated indicators for AI consciousness, and what survives perturbing them",
+  "version": "3.0.3",
+  "publication_date": "2026-10-03",
+  "creators": [
+    {
+      "name": "ScientificDiscoveryLab contributors",
+      "affiliation": "Scientific Discovery Lab"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Butlin, Patrick",
+      "affiliation": "Global Priorities Institute, University of Oxford",
+      "type": "Other"
+    },
+    {
+      "name": "Long, Robert",
+      "affiliation": "Eleos AI Research",
+      "type": "Other"
+    }
+  ],
+  "license": "mit-license",
+  "language": "eng",
+  "access_right": "open",
+  "description_source": "description.md",
+  "subjects": [
+    {
+      "id": "mesh:D003243",
+      "title": "Consciousness"
+    },
+    {
+      "id": "euroscivoc:297",
+      "title": "Artificial intelligence"
+    },
+    {
+      "id": "mesh:D009488",
+      "title": "Neurosciences"
+    },
+    {
+      "id": "euroscivoc:307",
+      "title": "Software"
+    },
+    {
+      "id": "euroscivoc:609",
+      "title": "Philosophy"
+    },
+    {
+      "id": "mesh:D015203",
+      "title": "Reproducibility of Results"
+    }
+  ],
+  "communities": [
+    "philosophyofmind"
+  ],
+  "keywords": [
+    "ai-consciousness",
+    "machine-consciousness",
+    "consciousness-science",
+    "global-workspace-theory",
+    "recurrent-processing-theory",
+    "higher-order-theories",
+    "attention-schema-theory",
+    "indicator-properties",
+    "mechanistic-interpretability",
+    "reproducibility",
+    "known-answer-calibration",
+    "sensitivity-analysis",
+    "perturbation-analysis",
+    "falsification",
+    "preregistration",
+    "open-science",
+    "ai-welfare"
+  ],
+  "references": [
+    "Butlin, P., Long, R., Elmoznino, E., Bengio, Y., et al. (2023). Consciousness in Artificial Intelligence: Insights from the Science of Consciousness. arXiv:2308.08708.",
+    "Butlin, P., Long, R., Bayne, T., Bengio, Y., et al. (2026). Identifying indicators of consciousness in AI systems. Trends in Cognitive Sciences, 30(6), 488-501. https://doi.org/10.1016/j.tics.2025.10.011",
+    "Long, R., Sebo, J., Butlin, P., Plunkett, D., Campbell, R., Beasley, C., Saad, B., & Sims, T. (2026). Studying AI Welfare Empirically. NYU Center for Mind, Ethics, and Policy & Eleos AI Research. https://nonhumanminds.org/studying-ai-welfare-empirically",
+    "Gurnee, B., Sofroniew, N., Lindsey, J., et al. (2026). Verbalizable Representations Form a Global Workspace in Language Models. Transformer Circuits. https://transformer-circuits.pub/2026/workspace"
+  ],
+  "related_identifiers": [
+    {
+      "relation": "isSupplementTo",
+      "identifier": "https://github.com/Nortaq-PlayNexus/consciousness-indicator-battery",
+      "resource_type": "software",
+      "note": "Source repository. The deposit is the frozen, byte-reproducible archive of the repository at commit 11f36e3. Same MIT licence."
+    },
+    {
+      "relation": "isDocumentedBy",
+      "identifier": "https://arxiv.org/abs/2308.08708",
+      "resource_type": "publication-article"
+    },
+    {
+      "relation": "isDocumentedBy",
+      "identifier": "10.1016/j.tics.2025.10.011",
+      "resource_type": "publication-article"
+    },
+    {
+      "relation": "isDocumentedBy",
+      "identifier": "https://nonhumanminds.org/studying-ai-welfare-empirically",
+      "resource_type": "publication-article"
+    }
+  ],
+  "version_note": "Version 3.0.3 corrects the CITATION.cff and README DOI badge inside the archive, which pointed at v2.0.0 (10.5281/zenodo.23111535) instead of the current version. No code, result, or claim changes. v3.0.2 (10.5281/zenodo.23150723) is superseded. All versions share concept DOI 10.5281/zenodo.23101902.",
+  "notes": "NO AI SYSTEM WAS SCORED AND NO CLAIM IS MADE ABOUT AI CONSCIOUSNESS. This work builds and audits an instrument for measuring candidate indicators of consciousness in AI systems; it does not apply that instrument to any system, including the authors' own. It scores no model and no person.\n\nCalibration status: 6 of 6 known-answer anchors pass. The battery is calibrated against published indicator properties, not against a ground truth of consciousness, which does not exist. Passing calibration means internal consistency, not correctness.\n\nOne methodological limit is stated openly and is not resolved: the aggregation temperature used by the battery was chosen by sweeping the same six anchors used to validate it, whose bands are themselves laboratory assumptions. Passing calibration therefore demonstrates internal consistency only. No absolute credence produced by this battery is a measurement; only ranking under shared assumptions is defensible.\n\nRobustness was assessed over 3000 joint perturbations. One control fails by design and is reported as failing: an absolute performance ceiling does not hold under the adversarial region. A fluent liar never outperforms the human baseline in either region.\n\nTwo preregistration-time hypotheses about mechanism were tested and rejected; only magnitudes are established.\n\nVersion 2.0.0 corrects two metadata defects in 1.0.0 and changes nothing scientific. See the version note.",
+  "immutable_record_warning": "Zenodo records are immutable once published. Any future change to this deposit must be published as a NEW VERSION (new version DOI, same concept DOI), not as an edit to this record.",
+  "doi": "",
+  "concept_doi": "10.5281/zenodo.23101902",
+  "archive": "consciousness-indicator-battery-v3.0.3.zip",
+  "archive_sha256": "deefa0a2274ed325f5e7f9166e4d73f5ee093a1d29a5ba39d8d0cfcf8e67b57a",
+  "archive_bytes": 111130,
+  "supersedes": "https://doi.org/10.5281/zenodo.23150723",
+  "supersedes_note": "3.0.2 ships the archive that actually rebuilds from source. 3.0.1 did not: it contained HANDOFF.md, which quotes the deposit's own digest, so the archive could never match the repository. 3.0.1 remains citable and verifies against its own manifest. No code, result or claim differs.",
+  "version_note_requested": "v3.0.2 - ships the archive that rebuilds byte-for-byte from the repository (109,791 B, md5:4f360ff9..., commit fdb9d3c, two builds identical). v3.0.1 did not, because the deposit contained a session document quoting its own digest; v3.0.0 did not, because of CRLF line endings and a platform-dependent manifest generator. No code, result or claim changed in any version. v3.0.0 and v3.0.1 remain citable."
+}
+

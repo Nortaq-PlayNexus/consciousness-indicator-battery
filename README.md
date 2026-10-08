@@ -8,9 +8,9 @@
 **And what survives perturbing every discretionary choice in it.**
 
 ![Calibration](https://img.shields.io/badge/calibration-6%2F6%20anchors%20PASS-brightgreen)
-![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.23111535-blue)
+![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.23150723-blue)
 ![Robustness](https://img.shields.io/badge/robustness-3000%20joint%20perturbations-blue)
-![Tests](https://img.shields.io/badge/tests-38%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-48%20passing-brightgreen)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Systems scored](https://img.shields.io/badge/AI%20systems%20scored-zero-lightgrey)

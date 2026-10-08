@@ -19,12 +19,12 @@ Do NOT auto-publish on the next run without checking with me first.
 | Archive | `zenodo/consciousness-indicator-battery-v1.0.0.zip` |
 | Size | 107,535 bytes (39 files) |
 | SHA-256 | `14abcd585432418e99a206026d37d41eb75e328701b32c6a53940797203725ee` |
-| Result hash EXP-C001 | `b953b8178354f048�` |
-| Result hash EXP-C003 | `1249a0ac9091ec2d�` |
+| Result hash EXP-C001 | `b953b8178354f0480257d9e684519782982da05207086c1e3491298d78133c16` |
+| Result hash EXP-C003 | `1249a0ac9091ec2d4448118fb07bd8e260952d095843f4a56903ec66b50be56e` |
 | Tests | 48 passing (1 skipped: lab-engine parity, standalone checkout) |
 | flake8 | exit 0 |
 | Clean room | passed |
-| DOI | **10.5281/zenodo.23111535** (v2.0.0) - published 2026-10-03 |
+| DOI | **10.5281/zenodo.23111535** (v2.0.0) - published 2026-10-03. Superseded; see current version below. |
 | Concept DOI | **10.5281/zenodo.23101902** - shared by every version |
 | v1 DOI | 10.5281/zenodo.23101903 - published 2026-10-02, still citable |
 

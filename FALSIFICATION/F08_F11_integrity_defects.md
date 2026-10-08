@@ -195,13 +195,13 @@ question "does this checker run correctly?" is separate from "what is it checkin
 and in these cases the second was consistently confused with the first.
 ---
 
-## F11 � three defects found by CI on the first push, not by reading
+## F11 — three defects found by CI on the first push, not by reading
 
 **Worth its own entry because CI caught these on the first run after being pushed.
-That is the system working � and also the first defect in this project found by a
+That is the system working — and also the first defect in this project found by a
 machine rather than by reading.**
 
-**F11a � the headline-claims job asserted on a key that does not exist.**
+**F11a — the headline-claims job asserted on a key that does not exist.**
 
 Symptom: `KeyError: 'gates'` on a clean checkout.
 
@@ -221,14 +221,14 @@ Why it matters: had the inner assertion also been false, this would have reporte
 `KeyError: 'gates'` instead of the actual gate values. Anyone reading CI would
 conclude the battery's robustness claim had broken. It had not.
 
-**F11b � lint config lived in two places.**
+**F11b — lint config lived in two places.**
 
 The workflow passed `--max-line-length=120` on the command line while local runs
 used `setup.cfg`'s 125. One line at 124 characters passed locally and failed in
 CI. Config in two places will disagree; lint config now lives only in
 `setup.cfg`, and CI runs bare `flake8 .`.
 
-**F11c � the advertised support matrix could not install.**
+**F11c — the advertised support matrix could not install.**
 
 `requirements.txt` pinned `numpy>=2.4.0` and `scipy>=1.18.0`, which require
 Python >=3.11 and >=3.12. The CI matrix started at 3.10, so two of four legs

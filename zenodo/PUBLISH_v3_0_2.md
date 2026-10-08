@@ -1,14 +1,27 @@
-# Publish v3.0.2 — draft 23150723
+# Publish v3.0.2 — **PUBLISHED 2026-10-05**
 
-**This is the one that fixes it.**
+> **This file is a historical record, not a to-do list.**
+>
+> v3.0.2 was published on **2026-10-05** as **`10.5281/zenodo.23150723`**,
+> 109,791 B, `md5:cf7b2953325002e2c1ad913dea8e59fa`, state `done`. It is the
+> version to cite. Verified by API read-back on 2026-10-08.
+>
+> The "Draft. Not published. No DOI minted." line this file used to open with was
+> true on 2026-10-04 and is no longer true. `zenodo/DEPOSIT_STATUS.md` still
+> describes v3.0.1 as the pending publication; it too is stale.
+>
+> The one open item that survives: **subjects are 0 on every published version**,
+> because Zenodo's API accepts the field, reports success, and stores nothing.
+> That is defect D2 in the laboratory's `PUBLICATION_VERIFICATION.md`.
+
+**Original instructions, preserved:**
 
 ```
 https://zenodo.org/deposit/23150723
 ```
 
-**Draft. Not published. No DOI minted.** Concept `23101902` — the same concept as
-every prior version, so `10.5281/zenodo.23101902` will resolve to this once
-published.
+Concept `23101902` — the same concept as every prior version, so
+`10.5281/zenodo.23101902` resolves to v3.0.2.
 
 ---
 
