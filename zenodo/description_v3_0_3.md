@@ -173,13 +173,13 @@ one untracked file inside the deposit.
 ```
 git clone https://github.com/Nortaq-PlayNexus/consciousness-indicator-battery
 cd consciousness-indicator-battery
-git checkout 24abe7c
+git checkout b47987e
 BATTERY_VERSION=3.0.3 python zenodo/build_zenodo_package.py
 ```
 
 Expected archive: **110,029 bytes**, `md5:33a4e5a7940881fa6eac4588d00a9e49`,
 `sha256:d8aa4f3d2bb92b51644bb7e423fada5be0bd6820b09e965bcaded23e09cab657`,
-from a clean checkout of commit `24abe7c`.
+from a clean checkout of commit `b47987e`.
 
 This was verified the way a reader would do it, not just in the working copy: a
 fresh `git clone` of the repository, built twice, produced three archives with
