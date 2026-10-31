@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281%2Fzenodo.23229094.svg)](https://doi.org/10.5281/zenodo.23229094)
+
 # A calibrated indicator battery for AI consciousness
 
 > **New to this repository, or picking up an interrupted session?**
